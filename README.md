@@ -1,6 +1,6 @@
 # SCR-Autopilot
 All-route autopilot for SCR.
-**This project is in BETA version. Please report bugs on (bug report form).**
+**This project is in BETA version. Please report issues [here](https://github.com/MaTY-MT/scr-autopilot/issues).**
 ## Required modules
 
  - numpy
