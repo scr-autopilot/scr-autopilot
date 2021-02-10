@@ -25,7 +25,7 @@ All-route autopilot for SCR.
  2. Extract the ZIP file
  3. [Install Python](https://www.python.org/downloads/)
  4. Open cmd in the extracted folder [How?](https://i.imgur.com/a1S6GGz.gif)
- 5. Type `pip install numpy pytesseract pydirectinput pillow pyttsx3 opencv-python` in the cmd
+ 5. Type `pip install numpy pytesseract pydirectinput pillow pyttsx3 opencv-python playsound` in the cmd
  6. Close the terminal
  7. Launch SCR
  8. Run `main.py` (just double-click it)
