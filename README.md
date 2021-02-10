@@ -10,6 +10,7 @@ All-route autopilot for SCR.
  - pyttsx3
  - tkinter
  - opencv-python
+ - playsound
 
 ## Installation
 **You must have this confirguration to make autopilot work properly:**
