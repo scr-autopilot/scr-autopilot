@@ -1,3 +1,5 @@
+# Yes, I know, that this code is messy. If you want to help with formatting this, you can write me at maty-mt@protonmail.com, but I will not format this code yet.
+
 import numpy as nm
 import pytesseract
 import re
