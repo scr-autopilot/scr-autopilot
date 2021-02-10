@@ -34,7 +34,10 @@ All-route autopilot for SCR.
 ## FAQ
 
  Q: The autopilot is beeping at me constantly.
+ 
  A: Calibrate the speed. The autopilot will sometimes accidently set the speed higher or lower than expected.
+ 
  Q: The bot doesn't always click the AWS button
+ 
  A: We're working on this bug.
 
