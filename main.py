@@ -16,6 +16,7 @@ from PIL import ImageEnhance
 from PIL import Image
 import tkinter as tk
 from tkinter import ttk
+input("By using this software, you agree, that if the software makes a fault, you are always ready to take over. We are not responsible for any penalties given to your account! It is highly reccomended to use this software only on VIP servers, yet. This software is not an exploit (confirmed by the SCR staff team) and you can use it freely. Press ENTER to continue.")
 window = tk.Tk()
 engine = pyttsx3.init()
 window.title("SCR-Autopilot (scr-autopilot.mmaty.eu)")
