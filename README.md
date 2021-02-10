@@ -23,8 +23,7 @@ All-route autopilot for SCR.
  1. Download the source code of the [latest release](https://github.com/MaTY-MT/scr-autopilot/releases) ![Image](https://i.imgur.com/iSwhxYf.png)
  2. Extract the ZIP file
  3. [Install Python](https://www.python.org/downloads/)
- 4. Open cmd in the extracted folder
- ![Image](https://i.imgur.com/a1S6GGz.gif)
+ 4. Open cmd in the extracted folder [How?](https://i.imgur.com/a1S6GGz.gif)
  5. Type `pip install numpy pytesseract pydirectinput pillow pyttsx3 tkinter` in the cmd
  6. Close the terminal
  7. Launch SCR
