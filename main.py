@@ -16,6 +16,9 @@ from PIL import ImageEnhance
 from PIL import Image
 import tkinter as tk
 from tkinter import ttk
+from throttle import *
+from brake import *
+
 input("By using this software, you agree, that if the software makes a fault, you are always ready to take over. We are not responsible for any penalties given to your account! It is highly reccomended to use this software only on VIP servers, yet. This software is not an exploit (confirmed by the SCR staff team) and you can use it freely. Press ENTER to continue.")
 window = tk.Tk()
 engine = pyttsx3.init()
@@ -36,90 +39,6 @@ red_pos = 1438,1045,1439,1046
 distance_pos = 555,1046,605,1070
 awsbutton_pos = 1364,960,1365,961
 safemode = input("Enable safe mode? (0 = no; 1 = yes) > ")
-
-
-old_spd = 0
-old_lim = 0
-
-def set_old_spd(spd):
-    old_spd = spd
-
-def set_old_lim(lim):
-    old_lim = lim
-
-def get_old_spd():
-    return(old_spd)
-
-def get_old_lim():
-    return(old_lim)
-
-
-
-def throttle(speed, to):
-    if to == 125:
-        to = 100
-    throttlespd = to - speed
-    sleeptime = 0
-    print("Throttle: ", throttlespd)
-    validspeeds = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 110, 115, 120, 125]
-    if throttlespd in validspeeds:
-        finalto = throttlespd / 5
-        finalto = int(finalto)
-        print("FINALTO", finalto)
-        for (i) in range(finalto):
-            sleeptime += 1
-            pydirectinput.keyDown("w")
-            time.sleep(0.0680)
-            pydirectinput.keyUp("w")
-        sleeptime = sleeptime * 1.3
-        time.sleep(sleeptime)
-        return
-
-    playsound.playsound("./sounds/warning.mp3")
-    if safemode == "1":
-        engine.say(
-            "Please take over immediately and stop the autopilot. Please take over immediately and stop the autopilot.")
-        engine.runAndWait()
-        pydirectinput.keyDown("s")
-        time.sleep(3.5)
-        pydirectinput.keyUp("s")
-        playsound.playsound("./sounds/beeps.mp3")
-        engine.say("Autopilot unavailable.")
-        engine.runAndWait()
-        playsound.playsound("./sounds/AutopilotEnd.mp3")
-        sys.exit()
-
-def brake(speed, to):
-    brakespd = speed - to
-    sleeptime = 0
-    print("Brake: ", brakespd)
-    validspeeds = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 110, 115, 120, 125]
-    if brakespd in validspeeds:
-        finalto = brakespd / 5
-        finalto = int(finalto)
-        print("FINALTO", finalto)
-        for (i) in range(finalto):
-            sleeptime += 1
-            pydirectinput.keyDown("s")
-            time.sleep(0.0680)
-            pydirectinput.keyUp("s")
-        sleeptime = sleeptime * 1.2
-        time.sleep(sleeptime)
-        return
-
-    playsound.playsound("./sounds/warning.mp3")
-    if safemode == "1":
-        engine.say(
-            "Please take over immediately and stop the autopilot. Please take over immediately and stop the autopilot.")
-        engine.runAndWait()
-        pydirectinput.keyDown("s")
-        time.sleep(3.5)
-        pydirectinput.keyUp("s")
-        playsound.playsound("./sounds/beeps.mp3")
-        engine.say("Autopilot unavailable.")
-        engine.runAndWait()
-        playsound.playsound("./sounds/AutopilotEnd.mp3")
-        sys.exit()
 
 
 def main(lim=None):
@@ -182,9 +101,7 @@ def main(lim=None):
         else:
             speed = speed[0]
             speed = int(speed)
-            set_old_spd(speed)
             print("Speed: ", speed)
-            print("OldSpeed:", old_spd)
             # END_SPEED
             # LIMIT
             cap = ImageGrab.grab(bbox=(lim_pos))
@@ -229,9 +146,9 @@ def main(lim=None):
                     print("AWS:", "green")
                 print("Limit: ", lim)
                 if speed < lim:
-                    throttle(speed, lim)
+                    throttle(speed, lim, safemode)
                 if lim < speed:
-                    brake(speed, lim)
+                    brake(speed, lim, safemode)
         # END_LIMIT
         s.enter(1, 1, mainrun, (sc,))
 
