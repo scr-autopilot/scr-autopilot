@@ -16,7 +16,7 @@ All-route autopilot for SCR.
 **You must have this confirguration to make autopilot work properly:**
 
  - Windows 10
- - FHD resolution
+ - FHD or HD resolution
  - Windows scaling set to 100%
  - Roblox set to fullscreen
  - Large GUI in SCR
@@ -32,7 +32,8 @@ All-route autopilot for SCR.
  8. Launch SCR
  9. Run `main.py` (just double-click it)
  10. The autopilot will ask if you want to enable safe mode. When you are on a VIP server, it is reccommended to keep the safe mode off.
- 11. Alt+Tab into the Roblox and enjoy autopilot 
+ 11. Select if you have HD or FHD resolution (type "hd" without the quotation marks when HD, "fhd" without the quotation marks when FHD)
+ 12. Alt+Tab into the Roblox and enjoy autopilot 
 
 ## FAQ
 

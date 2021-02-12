@@ -24,21 +24,34 @@ window = tk.Tk()
 engine = pyttsx3.init()
 window.title("SCR-Autopilot (scr-autopilot.mmaty.eu)")
 window.minsize(600,400)
-spd_label = ttk.Label(window, text = "Please check the terminal to get informations.")
+spd_label = ttk.Label(window, text = "Please check the cmd to get informations.")
 lim_label = ttk.Label(window, text = "")
 signal_label = ttk.Label(window, text = "")
 spd_label.grid(column = 0, row = 0)
 lim_label.grid(column = 0, row = 1)
 signal_label.grid(column = 0, row = 2)
-spd_pos = 884,957,947,985
-lim_pos = 889, 987, 942, 1016
-green_pos = 1440,983,1441,984
-yellow_pos = 1438,1016,1439,1017
-double_yellow_pos = 1438,950,1439,951
-red_pos = 1438,1045,1439,1046
-distance_pos = 555,1046,605,1070
-awsbutton_pos = 1364,960,1365,961
 safemode = input("Enable safe mode? (0 = no; 1 = yes) > ")
+resolution = input("What is the resolution? (fhd, hd) > ")
+if resolution == "fhd":
+    spd_pos = 884,957,947,985
+    lim_pos = 889, 987, 942, 1016
+    green_pos = 1440,983,1441,984
+    yellow_pos = 1438,1016,1439,1017
+    double_yellow_pos = 1438,950,1439,951
+    red_pos = 1438,1045,1439,1046
+    distance_pos = 555,1046,605,1070
+    awsbutton_pos = 1364,960,1365,961
+else:
+    print("The autopilot can be a little more buggy because of the HD resolution.")
+    time.sleep(1)
+    spd_pos = 573,594,630,630
+    lim_pos = 569,627,618,653
+    green_pos = 1118,624,1119,625
+    yellow_pos = 1120,654,1121,655
+    double_yellow_pos = 1120,590,1121,591
+    red_pos = 1120,688,1121,689
+    distance_pos = 239,686,284,708
+    awsbutton_pos = 1047,597,1048,598
 
 
 def main(lim=None):
@@ -77,7 +90,7 @@ def main(lim=None):
                 input("Press enter to engage.")
                 playsound.playsound("./sounds/AutopilotStart.mp3")
         except:
-            print("WTF")
+            print("Can't read the distance!")
         cap = ImageGrab.grab(bbox=(spd_pos))
         cap = cap.filter(ImageFilter.MedianFilter())
         enhancer = ImageEnhance.Contrast(cap)
@@ -157,7 +170,6 @@ def main(lim=None):
 
 def test():
     pass
-
 time.sleep(1)
 #test()
 
