@@ -11,7 +11,6 @@ All-route autopilot for SCR.
  - tkinter
  - opencv-python
  - playsound
- - logging
 
 ## Installation
 **You must have this confirguration to make autopilot work properly:**
@@ -27,7 +26,7 @@ All-route autopilot for SCR.
  2. Extract the ZIP file
  3. [Install Python](https://www.python.org/downloads/) **In the installation, click install to PATH!!**
  4. Open cmd in the extracted folder [How?](https://i.imgur.com/a1S6GGz.gif)
- 5. Type `pip install numpy pytesseract pydirectinput pillow pyttsx3 opencv-python playsound logging` in the cmd 
+ 5. Type `pip install numpy pytesseract pydirectinput pillow pyttsx3 opencv-python playsound` in the cmd 
  6. Press enter
  7. Close the terminal
  8. Launch SCR
