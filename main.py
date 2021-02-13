@@ -18,12 +18,8 @@ import tkinter as tk
 from tkinter import ttk
 from throttle import *
 from brake import *
-import logging
-logging.basicConfig(filename="debug.log", filemode="w", level=logging.DEBUG)
 
-logging.debug("All modules loaded, showing disclamer.")
 input("By using this software, you agree, that if the software makes a fault, you are always ready to take over. We are not responsible for any penalties given to your account! It is highly reccomended to use this software only on VIP servers, yet. This software is not an exploit (confirmed by the SCR staff team) and you can use it freely. Press ENTER to continue.")
-logging.debug("Disclamer confirmed.")
 window = tk.Tk()
 engine = pyttsx3.init()
 window.title("SCR-Autopilot (scr-autopilot.mmaty.eu)")
@@ -35,11 +31,8 @@ spd_label.grid(column = 0, row = 0)
 lim_label.grid(column = 0, row = 1)
 signal_label.grid(column = 0, row = 2)
 safemode = input("Enable safe mode? (0 = no; 1 = yes) > ")
-logging.debug("Safemode is " + safemode)
 resolution = input("What is the resolution? (fhd, hd) > ")
-logging.debug("Resolution is " + resolution)
 if resolution == "fhd":
-    logging.debug("Triggered fhd setup")
     spd_pos = 884,957,947,985
     lim_pos = 889, 987, 942, 1016
     green_pos = 1440,983,1441,984
@@ -49,7 +42,6 @@ if resolution == "fhd":
     distance_pos = 555,1046,605,1070
     awsbutton_pos = 1364,960,1365,961
 elif resolution == "hd":
-    logging.debug("Triggered hd setup")
     print("The autopilot can be a little more buggy because of the HD resolution.")
     time.sleep(1)
     spd_pos = 573,594,630,630
@@ -79,7 +71,6 @@ def main(lim=None):
         awsbutton_value = pix[0,0]  # Set the RGBA Value of the image (tuple)
         print(awsbutton_value)
         if not awsbutton_value == (0, 0, 0):
-            logging.debug("Clicked the AWS button")
             pydirectinput.keyDown("q")
             pydirectinput.keyUp("q")
             print("AWSBUTTON:", "clicked")
@@ -103,7 +94,6 @@ def main(lim=None):
                 playsound.playsound("./sounds/AutopilotStart.mp3")
         except:
             print("Can't read the distance!")
-            logging.debug("Can't read the distance, I see " + tesstr)
         cap = ImageGrab.grab(bbox=(spd_pos))
         cap = cap.filter(ImageFilter.MedianFilter())
         enhancer = ImageEnhance.Contrast(cap)
@@ -121,7 +111,6 @@ def main(lim=None):
         speed = [int(s) for s in re.findall(r'\b\d+\b', tesstr)]
 
         if speed == []:
-            logging.debug("Can't read the speed, I see " + tesstr)
             spd_label.configure(text= '?')
             engine.say("I can't read the speed.")
             engine.runAndWait()
@@ -140,7 +129,6 @@ def main(lim=None):
             lim = 0
             lim = [int(s) for s in re.findall(r'\b\d+\b', tesstr)]
             if lim == []:
-                logging.debug("Can't read the limit, I see " + tesstr)
                 engine.say("I can't read the limit.")
                 engine.runAndWait()
             else:
@@ -174,10 +162,8 @@ def main(lim=None):
                     print("AWS:", "green")
                 print("Limit: ", lim)
                 if speed < lim:
-                    logging.debug("Speed: " + speed + ", limit " + lim + ", throttle activated.")
                     throttle(speed, lim, safemode)
                 if lim < speed:
-                    logging.debug("Speed: " + speed + ", limit " + lim + ", braking activated.")
                     brake(speed, lim, safemode)
         # END_LIMIT
         s.enter(1, 1, mainrun, (sc,))
