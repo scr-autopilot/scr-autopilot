@@ -1,4 +1,3 @@
-import playsound
 import pydirectinput
 import time
 import pyttsx3
@@ -23,7 +22,8 @@ def brake(speed, to, safemode):
         time.sleep(sleeptime)
         return
 
-    playsound.playsound("./sounds/warning.mp3")
+    engine.say("Please calibrate the speed.")
+    engine.runAndWait()
     if safemode == "1":
         engine.say(
             "Please take over immediately and stop the autopilot. Please take over immediately and stop the autopilot.")
@@ -31,8 +31,8 @@ def brake(speed, to, safemode):
         pydirectinput.keyDown("s")
         time.sleep(3.5)
         pydirectinput.keyUp("s")
-        playsound.playsound("./sounds/beeps.mp3")
         engine.say("Autopilot unavailable.")
         engine.runAndWait()
-        playsound.playsound("./sounds/AutopilotEnd.mp3")
+        engine.say("Autopilot disengaged.")
+        engine.runAndWait()
         sys.exit()

@@ -8,7 +8,6 @@ import time
 import cv2
 from PIL import ImageGrab
 from PIL import ImageFilter
-import playsound
 import sched
 import pyttsx3
 import sys
@@ -89,9 +88,11 @@ def main(lim=None):
                 engine.say("Autopilot will will be disengaged 0.2 miles before the station.")
                 engine.runAndWait()
             if distance <= 20 and m_distance == 0:
-                playsound.playsound("./sounds/AutopilotEnd.mp3")
+                engine.say("Autopilot disengaged.")
+                engine.runAndWait()
                 input("Press enter to engage.")
-                playsound.playsound("./sounds/AutopilotStart.mp3")
+                engine.say("Autopilot engaged.")
+                engine.runAndWait()
         except:
             print("Can't read the distance!")
         cap = ImageGrab.grab(bbox=(spd_pos))
@@ -178,7 +179,8 @@ time.sleep(1)
 
 
 # Calling the function
-playsound.playsound("./sounds/AutopilotStart.mp3")
+engine.say("Autopilot engaged.")
+engine.runAndWait()
 main()
 
 

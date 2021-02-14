@@ -10,7 +10,6 @@ All-route autopilot for SCR.
  - pyttsx3
  - tkinter
  - opencv-python
- - playsound
 
 ## Installation
 **You must have this confirguration to make autopilot work properly:**
@@ -26,7 +25,7 @@ All-route autopilot for SCR.
  2. Extract the ZIP file
  3. [Install Python](https://www.python.org/downloads/) **In the installation, click install to PATH!!**
  4. Open cmd in the extracted folder [How?](https://i.imgur.com/a1S6GGz.gif)
- 5. Type `pip install numpy pytesseract pydirectinput pillow pyttsx3 opencv-python playsound` in the cmd 
+ 5. Type `pip install numpy pytesseract pydirectinput pillow pyttsx3 opencv-python` in the cmd 
  6. Press enter
  7. Close the terminal
  8. Launch SCR
@@ -37,9 +36,9 @@ All-route autopilot for SCR.
 
 ## FAQ
 
- Q: The autopilot is beeping at me constantly.
+ Q: The autopilot is saying "calibrate the speed", what is that?
  
- A: Calibrate the speed. The autopilot will sometimes accidently set the speed higher or lower than expected.
+ A: The autopilot will sometimes accidently set the speed higher or lower than expected. Example: the autopilot will go 51 mph, but 50 mph is expected. Adjust the speed and set it to 50 mph. We're working on the automatic calibration.
  
  Q: The bot doesn't always click the AWS button
  
