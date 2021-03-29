@@ -20,8 +20,8 @@ def throttle(speed, to, safemode):
             pydirectinput.keyDown("w")
             time.sleep(0.0680)
             pydirectinput.keyUp("w")
-        sleeptime = sleeptime * 1.3
-        time.sleep(sleeptime)
+        #sleeptime = sleeptime * 1.3
+        #time.sleep(sleeptime)
         return
 
     engine.say("Please calibrate the speed.")

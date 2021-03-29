@@ -18,8 +18,8 @@ def brake(speed, to, safemode):
             pydirectinput.keyDown("s")
             time.sleep(0.0680)
             pydirectinput.keyUp("s")
-        sleeptime = sleeptime * 1.2
-        time.sleep(sleeptime)
+        #sleeptime = sleeptime * 1.2
+        #time.sleep(sleeptime)
         return
 
     engine.say("Please calibrate the speed.")

@@ -9,7 +9,6 @@ import cv2
 from PIL import ImageGrab
 from PIL import ImageFilter
 import sched
-import pyttsx3
 import sys
 from PIL import ImageEnhance
 from PIL import Image
@@ -17,40 +16,52 @@ import tkinter as tk
 from tkinter import ttk
 from throttle import *
 from brake import *
+import requests
 
+print("SCR-Autopilot v0.2-beta by MaTY (matyroblox01)")
+print("Checking for updates...")
+URL = "https://matyapi.matymt.repl.co/scr-autopilot/newest-version"
+r = requests.get(url=URL)
+data = r.json()
+version = data['version']
+if not version == "0.2":
+    print("\x1B[31;40mYour version is outdated! Please install the latest release on https://github.com/MaTY-MT/scr-autopilot/releases\x1B[0m")
+else:
+    print("Your version is up-to-date.")
 input("By using this software, you agree, that if the software makes a fault, you are always ready to take over. We are not responsible for any penalties given to your account! It is highly reccomended to use this software only on VIP servers, yet. This software is not an exploit (confirmed by the SCR staff team) and you can use it freely. Press ENTER to continue.")
+
+
 window = tk.Tk()
-engine = pyttsx3.init()
 window.title("SCR-Autopilot (scr-autopilot.mmaty.eu)")
-window.minsize(600,400)
-spd_label = ttk.Label(window, text = "Please check the cmd to get informations.")
-lim_label = ttk.Label(window, text = "")
-signal_label = ttk.Label(window, text = "")
-spd_label.grid(column = 0, row = 0)
-lim_label.grid(column = 0, row = 1)
-signal_label.grid(column = 0, row = 2)
+window.minsize(600, 400)
+spd_label = ttk.Label(window, text="Please check the cmd to get informations.")
+lim_label = ttk.Label(window, text="")
+signal_label = ttk.Label(window, text="")
+spd_label.grid(column=0, row=0)
+lim_label.grid(column=0, row=1)
+signal_label.grid(column=0, row=2)
 safemode = input("Enable safe mode? (0 = no; 1 = yes) > ")
 resolution = input("What is the resolution? (fhd, hd) > ")
 if resolution == "fhd":
-    spd_pos = 884,957,947,985
+    spd_pos = 884, 957, 947, 985
     lim_pos = 889, 987, 942, 1016
-    green_pos = 1440,983,1441,984
-    yellow_pos = 1438,1016,1439,1017
-    double_yellow_pos = 1438,950,1439,951
-    red_pos = 1438,1045,1439,1046
-    distance_pos = 555,1046,605,1070
-    awsbutton_pos = 1364,960,1365,961
+    green_pos = 1440, 983, 1441, 984
+    yellow_pos = 1438, 1016, 1439, 1017
+    double_yellow_pos = 1438, 950, 1439, 951
+    red_pos = 1438, 1045, 1439, 1046
+    distance_pos = 555, 1046, 605, 1070
+    awsbutton_pos = 1364, 960, 1365, 961
 elif resolution == "hd":
     print("The autopilot can be a little more buggy because of the HD resolution.")
     time.sleep(1)
-    spd_pos = 573,594,630,630
-    lim_pos = 569,627,618,653
-    green_pos = 1118,624,1119,625
-    yellow_pos = 1120,654,1121,655
-    double_yellow_pos = 1120,590,1121,591
-    red_pos = 1120,688,1121,689
-    distance_pos = 239,686,284,708
-    awsbutton_pos = 1047,597,1048,598
+    spd_pos = 573, 594, 630, 630
+    lim_pos = 569, 627, 618, 653
+    green_pos = 1118, 624, 1119, 625
+    yellow_pos = 1120, 654, 1121, 655
+    double_yellow_pos = 1120, 590, 1121, 591
+    red_pos = 1120, 688, 1121, 689
+    distance_pos = 239, 686, 284, 708
+    awsbutton_pos = 1047, 597, 1048, 598
 else:
     print('Hmm, the resolution is not right... Try it again. Please type only "fhd" (without the quotation marks) if you have FHD monitor, or type "hd" (without the quotation marks) if you have HD monitor.')
     input("Press ENTER to close the program.")
@@ -58,7 +69,7 @@ else:
 
 
 def main(lim=None):
-    
+
     # Path of tesseract executable
     pytesseract.pytesseract.tesseract_cmd = './Tesseract-OCR/tesseract.exe'
 
@@ -67,7 +78,7 @@ def main(lim=None):
     def mainrun(sc):
         im = ImageGrab.grab(bbox=(awsbutton_pos))
         pix = im.load()
-        awsbutton_value = pix[0,0]  # Set the RGBA Value of the image (tuple)
+        awsbutton_value = pix[0, 0]  # Set the RGBA Value of the image (tuple)
         print(awsbutton_value)
         if not awsbutton_value == (0, 0, 0):
             pydirectinput.keyDown("q")
@@ -82,41 +93,82 @@ def main(lim=None):
         distance = 0
         distance = [int(s) for s in re.findall(r'\b\d+\b', tesstr)]
         try:
-            m_distance = distance[0]    
+            m_distance = distance[0]
             distance = distance[1]
             if distance <= 50 and distance >= 39 and m_distance == 0:
-                engine.say("Autopilot will will be disengaged 0.2 miles before the station.")
-                engine.runAndWait()
+                print(
+                    "Autopilot will will be disengaged 0.2 miles before the station.")
             if distance <= 20 and m_distance == 0:
-                engine.say("Autopilot disengaged.")
-                engine.runAndWait()
+                print("Autopilot disengaged.")
                 input("Press enter to engage.")
-                engine.say("Autopilot engaged.")
-                engine.runAndWait()
+                print("Autopilot engaged.")
+                time.sleep(1)
+                
         except:
             print("Can't read the distance!")
-        cap = ImageGrab.grab(bbox=(spd_pos))
-        cap = cap.filter(ImageFilter.MedianFilter())
-        enhancer = ImageEnhance.Contrast(cap)
-        cap = enhancer.enhance(2)
-        cap = cv2.cvtColor(nm.array(cap), cv2.COLOR_RGB2HSV)
-        c_h,c_s,c_v = cv2.split(cap)
-        cap = cv2.threshold(c_v, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
-        cv2.imshow("Speed", cap)
-        cv2.resizeWindow("Speed", 200, 200)
-        cv2.waitKey(1)
-        tesstr = pytesseract.image_to_string(
-            cap,
-            config="--psm 6 digits")
-        speed = 0
-        speed = [int(s) for s in re.findall(r'\b\d+\b', tesstr)]
-
-        if speed == []:
-            spd_label.configure(text= '?')
-            engine.say("I can't read the speed.")
-            engine.runAndWait()
+        cap = ImageGrab.grab(bbox=(845, 933, 845, 1071))
+        pix = im.load()
+        awsbutton_value = pix[0, 0]  # Set the RGBA Value of the image (tuple)
+        print(awsbutton_value)
+        cap = ImageGrab.grab(bbox=(843, 931, 845, 1074))
+        img = cap
+        count = 0
+        for y in range(img.height):
+            for x in range(img.width):
+                pixel = img.getpixel((x,y))
+                if pixel == (0, 176, 85):
+                    count+=1
+        speed = None
+        if count == 0:
+            speed = 0
+        if count == 7:
+            speed = 5
+        if count == 15:
+            speed = 10
+        if count == 22:
+            speed = 15
+        if count == 31:
+            speed = 20
+        if count == 37:
+            speed = 25
+        if count == 44 or count == 43:
+            speed = 30
+        if count == 50:
+            speed = 35
+        if count == 58:
+            speed = 40
+        if count == 65:
+            speed = 45
+        if count == 71 or count == 72:
+            speed = 50
+        if count == 79:
+            speed = 55
+        if count == 87:
+            speed = 60
+        if count == 94 or count == 93:
+            speed = 65
+        if count == 100:
+            speed = 70
+        if count == 107 or count == 108:
+            speed = 75
+        if count == 115:
+            speed = 80
+        if count == 122:
+            speed = 85
+        if count == 129 or count == 128:
+            speed = 90
+        if count == 142:
+            speed = 100
+        print(count,"pixels are green.")
+        spd_label.configure(text='Speed: {}'.format(speed))
+        if speed == None:
+            """pydirectinput.keyDown("s")
+            time.sleep(0.00000001)
+            pydirectinput.keyUp("s")"""
+            spd_label.configure(text='?')
+            print("I can't read the speed.")
+            
         else:
-            speed = speed[0]
             speed = int(speed)
             print("Speed: ", speed)
             # END_SPEED
@@ -130,24 +182,27 @@ def main(lim=None):
             lim = 0
             lim = [int(s) for s in re.findall(r'\b\d+\b', tesstr)]
             if lim == []:
-                engine.say("I can't read the limit.")
-                engine.runAndWait()
+                print("I can't read the limit.")
             else:
                 templim = lim[0]
                 lim = lim[0]
                 lim = int(lim)
                 im = ImageGrab.grab(bbox=(red_pos))
                 pix = im.load()
-                red_value = pix[0,0]  # Set the RGBA Value of the image (tuple)
+                # Set the RGBA Value of the image (tuple)
+                red_value = pix[0, 0]
                 im = ImageGrab.grab(bbox=(yellow_pos))
                 pix = im.load()
-                yellow_value = pix[0,0]  # Set the RGBA Value of the image (tuple)
+                # Set the RGBA Value of the image (tuple)
+                yellow_value = pix[0, 0]
                 im = ImageGrab.grab(bbox=(green_pos))
                 pix = im.load()
-                green_value = pix[0,0]  # Set the RGBA Value of the image (tuple)
+                # Set the RGBA Value of the image (tuple)
+                green_value = pix[0, 0]
                 im = ImageGrab.grab(bbox=(double_yellow_pos))
                 pix = im.load()
-                double_yellow_value = pix[0,0]  # Set the RGBA Value of the image (tuple)
+                # Set the RGBA Value of the image (tuple)
+                double_yellow_value = pix[0, 0]
                 if red_value == (255, 0, 0):
                     print("AWS:", "red")
                     lim = 0
@@ -172,16 +227,27 @@ def main(lim=None):
     s.enter(1, 1, mainrun, (s,))
     s.run()
 
+
 def test():
-    pass
+    while True:
+        cap = ImageGrab.grab(bbox=(843, 931, 845, 1074))
+        img = cap
+        count = 0
+        for y in range(img.height):
+            for x in range(img.width):
+                pixel = img.getpixel((x,y))
+                if pixel == (0, 176, 85):
+                    count+=1
+
+        print(count,"pixels are green.")
+    
+
+
 time.sleep(1)
 #test()
 
 
 # Calling the function
-engine.say("Autopilot engaged.")
-engine.runAndWait()
+print("Autopilot engaged.")
 main()
 
-
-# TODO: POZICE SE MĚNÍ SCALE SIZEM
