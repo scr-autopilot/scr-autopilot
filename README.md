@@ -1,7 +1,7 @@
 # SCR-Autopilot
 All-route autopilot for SCR.
 **This project is in BETA version. Please report issues [here](https://github.com/MaTY-MT/scr-autopilot/issues).**
-## Required modules
+## Required modules (ignore when installing compiled version (the installer exe)
 
  - numpy
  - pytesseract
@@ -21,18 +21,12 @@ All-route autopilot for SCR.
  - Large GUI in SCR
 
 -----
- 1. Download the source code of the [latest release](https://github.com/MaTY-MT/scr-autopilot/releases) ![Image](https://i.imgur.com/iSwhxYf.png)
- 2. Extract the ZIP file
- 3. [Install Python](https://www.python.org/downloads/) **In the installation, click install to PATH!!**
- 4. Open cmd in the extracted folder [How?](https://i.imgur.com/a1S6GGz.gif)
- 5. Type `pip install numpy pytesseract pydirectinput pillow pyttsx3 opencv-python` in the cmd 
- 6. Press enter
- 7. Close the terminal
- 8. Launch SCR
- 9. Run `main.py` (just double-click it)
- 10. The autopilot will ask if you want to enable safe mode. When you are on a VIP server, it is reccommended to keep the safe mode off.
- 11. Select if you have HD or FHD resolution (type "hd" without the quotation marks when HD, "fhd" without the quotation marks when FHD)
- 12. Alt+Tab into the Roblox and enjoy autopilot 
+ 1. Download the installer of the [latest release](https://github.com/MaTY-MT/scr-autopilot/releases) ![Image](https://matyimg.ml/i/0zfqkgh4.png)
+ 2. Launch SCR
+ 3. Launch SCR-Autopilot by searching it in Windows, or clicking on the desktop shortcut
+ 4. The autopilot will ask if you want to enable safe mode. When you are on a VIP server, it is reccommended to keep the safe mode off.
+ 5. Select if you have HD or FHD resolution (type "hd" without the quotation marks when HD, "fhd" without the quotation marks when FHD)
+ 6. Alt+Tab into the Roblox and enjoy autopilot 
 
 ## FAQ
 
