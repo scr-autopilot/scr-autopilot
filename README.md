@@ -1,5 +1,6 @@
 # SCR-Autopilot
 All-route autopilot for SCR.
+<br>
 [![Official Discord server](https://img.shields.io/discord/806191973362040893?style=for-the-badge)]()
 <br>
 **This project is in BETA version. Please report issues [here](https://github.com/MaTY-MT/scr-autopilot/issues).**
