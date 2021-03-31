@@ -6,6 +6,7 @@ import re
 import pydirectinput
 import time
 import cv2
+import math
 from PIL import ImageGrab
 from PIL import ImageFilter
 import sched
@@ -15,7 +16,6 @@ from PIL import Image
 import tkinter as tk
 from tkinter import ttk
 from throttle import *
-from brake import *
 import requests
 
 print("SCR-Autopilot v0.2-beta by MaTY (matyroblox01)")
@@ -30,7 +30,6 @@ else:
     print("Your version is up-to-date.")
 input("By using this software, you agree, that if the software makes a fault, you are always ready to take over. We are not responsible for any penalties given to your account! It is highly reccomended to use this software only on VIP servers, yet. This software is not an exploit (confirmed by the SCR staff team) and you can use it freely. Press ENTER to continue.")
 
-
 window = tk.Tk()
 window.title("SCR-Autopilot (scr-autopilot.mmaty.eu)")
 window.minsize(600, 400)
@@ -40,7 +39,7 @@ signal_label = ttk.Label(window, text="")
 spd_label.grid(column=0, row=0)
 lim_label.grid(column=0, row=1)
 signal_label.grid(column=0, row=2)
-safemode = input("Enable safe mode? (0 = no; 1 = yes) > ")
+
 resolution = input("What is the resolution? (fhd, hd) > ")
 if resolution == "fhd":
     spd_pos = 884, 957, 947, 985
@@ -66,6 +65,8 @@ else:
     print('Hmm, the resolution is not right... Try it again. Please type only "fhd" (without the quotation marks) if you have FHD monitor, or type "hd" (without the quotation marks) if you have HD monitor.')
     input("Press ENTER to close the program.")
     sys.exit()
+
+max_speed = int ( input("What is the maximum speed of your train in MPH? (E.g. 100, 125, 75 etc.) > ") )
 
 
 def main(lim=None):
@@ -118,60 +119,17 @@ def main(lim=None):
                 pixel = img.getpixel((x,y))
                 if pixel == (0, 176, 85):
                     count+=1
-        speed = None
-        if count == 0:
-            speed = 0
-        if count == 7:
-            speed = 5
-        if count == 15:
-            speed = 10
-        if count == 22:
-            speed = 15
-        if count == 31:
-            speed = 20
-        if count == 37:
-            speed = 25
-        if count == 44 or count == 43:
-            speed = 30
-        if count == 50:
-            speed = 35
-        if count == 58:
-            speed = 40
-        if count == 65:
-            speed = 45
-        if count == 71 or count == 72:
-            speed = 50
-        if count == 79:
-            speed = 55
-        if count == 87:
-            speed = 60
-        if count == 94 or count == 93:
-            speed = 65
-        if count == 100:
-            speed = 70
-        if count == 107 or count == 108:
-            speed = 75
-        if count == 115:
-            speed = 80
-        if count == 122:
-            speed = 85
-        if count == 129 or count == 128:
-            speed = 90
-        if count == 142:
-            speed = 100
-        print(count,"pixels are green.")
-        spd_label.configure(text='Speed: {}'.format(speed))
-        if speed == None:
-            """pydirectinput.keyDown("s")
-            time.sleep(0.00000001)
-            pydirectinput.keyUp("s")"""
-            spd_label.configure(text='?')
-            print("I can't read the speed.")
+        
+        currentThrottle = int( math.floor( 100 * (count / 142) ) )
+        speed = currentThrottle/100 * max_speed
+
+        print("Current throttle: ",currentThrottle)
+
+        #print(count,"pixels are green.")
+        if currentThrottle == None:
+            print("I can't read the throttle.")
             
         else:
-            speed = int(speed)
-            print("Speed: ", speed)
-            # END_SPEED
             # LIMIT
             cap = ImageGrab.grab(bbox=(lim_pos))
             cap = cap.filter(ImageFilter.MedianFilter())
@@ -217,10 +175,12 @@ def main(lim=None):
                 if green_value == (0, 255, 0):
                     print("AWS:", "green")
                 print("Limit: ", lim)
-                if speed < lim:
-                    throttle(speed, lim, safemode)
-                if lim < speed:
-                    brake(speed, lim, safemode)
+
+                limitThrottle = int( (lim / max_speed) * 100 )
+
+                print("Limit throttle: ",limitThrottle)
+                throttle(currentThrottle, limitThrottle)
+
         # END_LIMIT
         s.enter(1, 1, mainrun, (sc,))
 
