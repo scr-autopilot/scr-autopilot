@@ -4,7 +4,7 @@
 All-route autopilot for SCR.
 
 **This project is in BETA version. Please report issues [here](https://github.com/MaTY-MT/scr-autopilot/issues).**
-## Required modules (ignore when installing compiled version (the installer exe)
+## Used modules
 
  - numpy
  - pytesseract
