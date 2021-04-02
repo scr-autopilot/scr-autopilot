@@ -31,13 +31,3 @@ All-route autopilot for SCR.
  5. Select if you have HD or FHD resolution (type "hd" without the quotation marks when HD, "fhd" without the quotation marks when FHD)
  6. Alt+Tab into the Roblox and enjoy autopilot 
 
-## FAQ
-
- Q: The autopilot is saying "calibrate the speed", what is that?
- 
- A: The autopilot will sometimes accidently set the speed higher or lower than expected. Example: the autopilot will go 51 mph, but 50 mph is expected. Adjust the speed and set it to 50 mph. We're working on the automatic calibration.
- 
- Q: The bot doesn't always click the AWS button
- 
- A: We're working on this bug.
-
