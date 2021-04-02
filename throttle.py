@@ -1,7 +1,5 @@
 import pydirectinput
 import time
-import pyttsx3
-engine = pyttsx3.init()
 
 def throttle(fromThrottle, toThrottle):
     throttleDiff = toThrottle - fromThrottle
