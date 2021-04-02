@@ -18,13 +18,13 @@ from tkinter import ttk
 from throttle import *
 import requests
 
-print("SCR-Autopilot v0.2-beta by MaTY (matyroblox01)")
+print("SCR-Autopilot v0.2.1-beta by MaTY (matyroblox01)")
 print("Checking for updates...")
 URL = "https://matyapi.matymt.repl.co/scr-autopilot/newest-version"
 r = requests.get(url=URL)
 data = r.json()
 version = data['version']
-if not version == "0.2":
+if not version == "0.2.1":
     print("\x1B[31;40mYour version is outdated! Please install the latest release on https://github.com/MaTY-MT/scr-autopilot/releases\x1B[0m")
 else:
     print("Your version is up-to-date.")
@@ -50,6 +50,7 @@ if resolution == "fhd":
     red_pos = 1438, 1045, 1439, 1046
     distance_pos = 555, 1046, 605, 1070
     awsbutton_pos = 1364, 960, 1365, 961
+    throttle_pos = 843, 931, 845, 1074
 elif resolution == "hd":
     print("The autopilot can be a little more buggy because of the HD resolution.")
     time.sleep(1)
@@ -61,6 +62,7 @@ elif resolution == "hd":
     red_pos = 1120, 688, 1121, 689
     distance_pos = 239, 686, 284, 708
     awsbutton_pos = 1047, 597, 1048, 598
+    throttle_pos = 522, 570, 525, 713
 else:
     print('Hmm, the resolution is not right... Try it again. Please type only "fhd" (without the quotation marks) if you have FHD monitor, or type "hd" (without the quotation marks) if you have HD monitor.')
     input("Press ENTER to close the program.")
@@ -111,7 +113,7 @@ def main(lim=None):
         pix = im.load()
         awsbutton_value = pix[0, 0]  # Set the RGBA Value of the image (tuple)
         print(awsbutton_value)
-        cap = ImageGrab.grab(bbox=(843, 931, 845, 1074))
+        cap = ImageGrab.grab(bbox=(throttle_pos))
         img = cap
         count = 0
         for y in range(img.height):
@@ -188,25 +190,7 @@ def main(lim=None):
     s.run()
 
 
-def test():
-    while True:
-        cap = ImageGrab.grab(bbox=(843, 931, 845, 1074))
-        img = cap
-        count = 0
-        for y in range(img.height):
-            for x in range(img.width):
-                pixel = img.getpixel((x,y))
-                if pixel == (0, 176, 85):
-                    count+=1
-
-        print(count,"pixels are green.")
-    
-
-
 time.sleep(1)
-#test()
-
-
 # Calling the function
 print("Autopilot engaged.")
 main()
