@@ -17,7 +17,7 @@ def throttle(fromThrottle, toThrottle):
     print("Throttle: ", throttleDiff)
     pressTime = abs( (throttleDiff / 5) * 0.16 )
 
-    if abs(throttleDiff) < 4:
+    if -4 < throttleDiff < 0:
         pydirectinput.keyDown(key)
         pydirectinput.keyUp(key)
     else: 
