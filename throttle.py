@@ -1,7 +1,5 @@
 import pydirectinput
 import time
-import pyttsx3
-engine = pyttsx3.init()
 
 def throttle(fromThrottle, toThrottle):
     throttleDiff = toThrottle - fromThrottle
@@ -11,7 +9,7 @@ def throttle(fromThrottle, toThrottle):
 
     if throttleDiff > 0:
         key = "w"
-    elif throttleDiff < -3:
+    elif throttleDiff < -1:
         key = "s"
     else:
         return
@@ -19,7 +17,11 @@ def throttle(fromThrottle, toThrottle):
     print("Throttle: ", throttleDiff)
     pressTime = abs( (throttleDiff / 5) * 0.16 )
 
-    pydirectinput.keyDown(key)
-    time.sleep(pressTime)
-    pydirectinput.keyUp(key)
+    if abs(throttleDiff) < 4:
+        pydirectinput.keyDown(key)
+        pydirectinput.keyUp(key)
+    else: 
+        pydirectinput.keyDown(key)
+        time.sleep(pressTime)
+        pydirectinput.keyUp(key)
     return
