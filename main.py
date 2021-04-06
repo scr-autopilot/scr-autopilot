@@ -98,7 +98,7 @@ def main(lim=None):
         for y in range(img.height):
             for x in range(img.width):
                 pixel = img.getpixel((x,y))
-                if pixel == (0, 176, 118): #85
+                if pixel == (0, 176, 85):
                     count+=1
         
         currentThrottle = int( math.floor( 100 * (count / 142) ) )
