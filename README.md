@@ -27,7 +27,7 @@ All-route autopilot for SCR.
  1. Download the installer of the [latest release](https://github.com/MaTY-MT/scr-autopilot/releases)
  2. Launch SCR
  3. Launch SCR-Autopilot by searching it in Windows, or clicking on the desktop shortcut
- 4. The autopilot will ask if you want to enable safe mode. When you are on a VIP server, it is reccommended to keep the safe mode off.
- 5. Select if you have HD or FHD resolution (type "hd" without the quotation marks when HD, "fhd" without the quotation marks when FHD)
+ 4. Select if you have HD or FHD resolution (type "hd" without the quotation marks when HD, "fhd" without the quotation marks when FHD)
+ 5. Type the top speed of your train in MPH
  6. Alt+Tab into the Roblox and enjoy autopilot 
 
