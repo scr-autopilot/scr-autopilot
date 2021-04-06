@@ -24,7 +24,7 @@ All-route autopilot for SCR.
  - Large GUI in SCR
 
 -----
- 1. Download the installer of the [latest release](https://github.com/MaTY-MT/scr-autopilot/releases) ![Image](https://matyimg.ml/i/0zfqkgh4.png)
+ 1. Download the installer of the [latest release](https://github.com/MaTY-MT/scr-autopilot/releases)
  2. Launch SCR
  3. Launch SCR-Autopilot by searching it in Windows, or clicking on the desktop shortcut
  4. The autopilot will ask if you want to enable safe mode. When you are on a VIP server, it is reccommended to keep the safe mode off.
