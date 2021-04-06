@@ -13,8 +13,8 @@ import sched
 import sys
 from PIL import ImageEnhance
 from PIL import Image
-import tkinter as tk
-from tkinter import ttk
+# import tkinter as tk
+# from tkinter import ttk
 from throttle import *
 import requests
 
@@ -30,15 +30,15 @@ else:
     print("Your version is up-to-date.")
 input("By using this software, you agree, that if the software makes a fault, you are always ready to take over. We are not responsible for any penalties given to your account! It is highly reccomended to use this software only on VIP servers, yet. This software is not an exploit (confirmed by the SCR staff team) and you can use it freely. Press ENTER to continue.")
 
-window = tk.Tk()
-window.title("SCR-Autopilot (scr-autopilot.mmaty.eu)")
-window.minsize(600, 400)
-spd_label = ttk.Label(window, text="Please check the cmd to get informations.")
-lim_label = ttk.Label(window, text="")
-signal_label = ttk.Label(window, text="")
-spd_label.grid(column=0, row=0)
-lim_label.grid(column=0, row=1)
-signal_label.grid(column=0, row=2)
+# window = tk.Tk()
+# window.title("SCR-Autopilot (scr-autopilot.mmaty.eu)")
+# window.minsize(600, 400)
+# spd_label = ttk.Label(window, text="Please check the cmd to get informations.")
+# lim_label = ttk.Label(window, text="")
+# signal_label = ttk.Label(window, text="")
+# spd_label.grid(column=0, row=0)
+# lim_label.grid(column=0, row=1)
+# signal_label.grid(column=0, row=2)
 
 resolution = input("What is the resolution? (fhd, hd) > ")
 if resolution == "fhd":
