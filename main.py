@@ -187,7 +187,7 @@ def main(lim=None):
                         time.sleep(1)
                     else:
                         throttle(currentThrottle, limitThrottle)
-                except:
+                except IndexError:
                     print("Can't read the distance!")
 
         # END_LIMIT
