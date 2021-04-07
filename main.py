@@ -87,28 +87,7 @@ def main(lim=None):
             pydirectinput.keyDown("q")
             pydirectinput.keyUp("q")
             print("AWSBUTTON:", "clicked")
-        cap = ImageGrab.grab(bbox=(distance_pos))
-        cap = cap.filter(ImageFilter.MedianFilter())
-        cap = cv2.cvtColor(nm.array(cap), cv2.COLOR_RGB2GRAY)
-        tesstr = pytesseract.image_to_string(
-            cap,
-            config="--psm 7")
-        distance = 0
-        distance = [int(s) for s in re.findall(r'\b\d+\b', tesstr)]
-        try:
-            m_distance = distance[0]
-            distance = distance[1]
-            if distance <= 50 and distance >= 39 and m_distance == 0:
-                print(
-                    "Autopilot will will be disengaged 0.2 miles before the station.")
-            if distance <= 20 and m_distance == 0:
-                print("Autopilot disengaged.")
-                input("Press enter to engage.")
-                print("Autopilot engaged.")
-                time.sleep(1)
-                
-        except:
-            print("Can't read the distance!")
+
         cap = ImageGrab.grab(bbox=(845, 933, 845, 1071))
         pix = im.load()
         awsbutton_value = pix[0, 0]  # Set the RGBA Value of the image (tuple)
@@ -176,12 +155,40 @@ def main(lim=None):
                         lim = 75
                 if green_value == (0, 255, 0):
                     print("AWS:", "green")
-                print("Limit: ", lim)
 
+                print("Limit: ", lim)
                 limitThrottle = int( (lim / max_speed) * 100 )
 
                 print("Limit throttle: ",limitThrottle)
-                throttle(currentThrottle, limitThrottle)
+
+                cap = ImageGrab.grab(bbox=(distance_pos))
+                cap = cap.filter(ImageFilter.MedianFilter())
+                cap = cv2.cvtColor(nm.array(cap), cv2.COLOR_RGB2GRAY)
+                tesstr = pytesseract.image_to_string(
+                    cap,
+                    config="--psm 7")
+                distance = 0
+                distance = [int(s) for s in re.findall(r'\b\d+\b', tesstr)]
+                try:
+                    m_distance = distance[0]
+                    distance = distance[1]
+                    if distance <= 50 and distance >= 39 and m_distance == 0:
+                        print(
+                            "Autopilot will will be disengaged 0.2 miles before the station.")
+                    elif distance <= 20 and m_distance == 0:
+                        if lim >= 45:
+                            print("Slowing down to 45 to prepare for station arrival.")
+                            throttle(currentThrottle, int( (45 / max_speed) * 100 ))
+                        else:
+                            throttle(currentThrottle, limitThrottle)
+                        print("Autopilot disengaged.")
+                        input("Press enter to engage.")
+                        print("Autopilot engaged.")
+                        time.sleep(1)
+                    else:
+                        throttle(currentThrottle, limitThrottle)
+                except IndexError:
+                    print("Can't read the distance!")
 
         # END_LIMIT
         s.enter(1, 1, mainrun, (sc,))
