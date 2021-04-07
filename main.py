@@ -11,21 +11,19 @@ from PIL import ImageGrab
 from PIL import ImageFilter
 import sched
 import sys
-from PIL import ImageEnhance
-from PIL import Image
 # import tkinter as tk
 # from tkinter import ttk
 from throttle import *
 import requests
 
-print("SCR-Autopilot v0.2.1-beta by MaTY (matyroblox01)")
+print("SCR-Autopilot v0.2.2-beta by MaTY (matyroblox01)")
 print("Checking for updates...")
 URL = "https://matyapi.matymt.repl.co/scr-autopilot/newest-version"
 r = requests.get(url=URL)
 data = r.json()
 version = data['version']
-if not version == "0.2.1":
-    print("Your version is outdated! Please install the latest release on https://github.com/MaTY-MT/scr-autopilot/releases\x1B")
+if not version == "0.2.2":
+    print("Your version is outdated! Please install the latest release on https://github.com/MaTY-MT/scr-autopilot/releases")
 else:
     print("Your version is up-to-date.")
 input("By using this software, you agree, that if the software makes a fault, you are always ready to take over. We are not responsible for any penalties given to your account! It is highly reccomended to use this software only on VIP servers, yet. This software is not an exploit (confirmed by the SCR staff team) and you can use it freely. Press ENTER to continue.")
