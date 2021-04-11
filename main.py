@@ -1,5 +1,3 @@
-# Yes, I know, that this code is messy. If you want to help with formatting this, you can write me at maty-mt@protonmail.com, but I will not format this code yet.
-
 import numpy as nm
 import pytesseract
 import re
@@ -16,6 +14,8 @@ import sys
 from throttle import *
 import requests
 import logging
+from win32 import win32api
+import ctypes
 
 print("SCR-Autopilot v0.2.2-beta by MaTY (matyroblox01)")
 print("Checking for updates...")
@@ -75,6 +75,28 @@ else:
 
 max_speed = int ( input("What is the maximum speed of your train in MPH? (E.g. 100, 125, 75 etc.) > ") )
 
+PROCESS_PER_MONITOR_DPI_AWARE = 2
+MDT_EFFECTIVE_DPI = 0
+
+def print_dpi():
+    shcore = ctypes.windll.shcore
+    monitors = win32api.EnumDisplayMonitors()
+    hresult = shcore.SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE)
+    assert hresult == 0
+    dpiX = ctypes.c_uint()
+    dpiY = ctypes.c_uint()
+    for i, monitor in enumerate(monitors):
+        shcore.GetDpiForMonitor(
+            monitor[0].handle,
+            MDT_EFFECTIVE_DPI,
+            ctypes.byref(dpiX),
+            ctypes.byref(dpiY)
+        )
+        logging.debug(
+            f"Monitor {i} = dpiX: {dpiX.value}, dpiY: {dpiY.value}"
+        )
+print_dpi()
+
 
 def main(lim=None):
 
@@ -87,16 +109,11 @@ def main(lim=None):
         im = ImageGrab.grab(bbox=(awsbutton_pos))
         pix = im.load()
         awsbutton_value = pix[0, 0]  # Set the RGBA Value of the image (tuple)
-        print(awsbutton_value)
         if not awsbutton_value == (0, 0, 0):
             pydirectinput.keyDown("q")
             pydirectinput.keyUp("q")
             print("AWSBUTTON:", "clicked")
-
-        cap = ImageGrab.grab(bbox=(845, 933, 845, 1071))
-        pix = im.load()
-        awsbutton_value = pix[0, 0]  # Set the RGBA Value of the image (tuple)
-        print(awsbutton_value)
+        logging.debug(f'AWS pixel RGB: {awsbutton_value}')
         cap = ImageGrab.grab(bbox=(throttle_pos))
         img = cap
         count = 0
