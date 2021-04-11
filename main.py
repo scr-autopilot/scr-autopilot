@@ -15,6 +15,7 @@ import sys
 # from tkinter import ttk
 from throttle import *
 import requests
+import logging
 
 print("SCR-Autopilot v0.2.2-beta by MaTY (matyroblox01)")
 print("Checking for updates...")
@@ -26,6 +27,9 @@ if not version == "0.2.2":
     print("Your version is outdated! Please install the latest release on https://github.com/MaTY-MT/scr-autopilot/releases")
 else:
     print("Your version is up-to-date.")
+
+logging.basicConfig(filename='autopilot.log', filemode='w', level=logging.DEBUG, format="[%(levelname)s] [%(asctime)s] %(message)s")
+
 input("By using this software, you agree, that if the software makes a fault, you are always ready to take over. We are not responsible for any penalties given to your account! It is highly reccomended to use this software only on VIP servers, yet. This software is not an exploit (confirmed by the SCR staff team) and you can use it freely. Press ENTER to continue.")
 
 # window = tk.Tk()
@@ -37,6 +41,9 @@ input("By using this software, you agree, that if the software makes a fault, yo
 # spd_label.grid(column=0, row=0)
 # lim_label.grid(column=0, row=1)
 # signal_label.grid(column=0, row=2)
+
+display_size = ImageGrab.grab().size
+logging.debug(f'Display resolution: {display_size[0]}, {display_size[1]}')
 
 resolution = input("What is the resolution? (fhd, hd) > ")
 if resolution == "fhd":
@@ -93,15 +100,20 @@ def main(lim=None):
         cap = ImageGrab.grab(bbox=(throttle_pos))
         img = cap
         count = 0
+        bottom_throttle_pixel = None
         for y in range(img.height):
             for x in range(img.width):
                 pixel = img.getpixel((x,y))
+                if y == img.height - 1:
+                    bottom_throttle_pixel = pixel
                 if pixel == (0, 176, 85):
                     count+=1
         
         currentThrottle = int( math.floor( 100 * (count / 142) ) )
         speed = currentThrottle/100 * max_speed
 
+        if currentThrottle == 0:
+            logging.debug(f'Throttle pixel RGB: {bottom_throttle_pixel}')
         print("Current throttle: ",currentThrottle)
 
         #print(count,"pixels are green.")
