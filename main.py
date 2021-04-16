@@ -9,8 +9,8 @@ from PIL import ImageGrab
 from PIL import ImageFilter
 import sched
 import sys
-# import tkinter as tk
-# from tkinter import ttk
+import tkinter
+from tkinter import ttk
 from throttle import *
 import requests
 import logging
@@ -27,24 +27,13 @@ if not version == "0.2.2":
     print("Your version is outdated! Please install the latest release on https://github.com/MaTY-MT/scr-autopilot/releases")
 else:
     print("Your version is up-to-date.")
-
-logging.basicConfig(filename='autopilot.log', filemode='w', level=logging.DEBUG, format="[%(levelname)s] [%(asctime)s] %(message)s")
+logging.basicConfig(filename='autopilot.log', filemode='w',
+                    level=logging.DEBUG, format="[%(levelname)s] [%(asctime)s] %(message)s")
 
 input("By using this software, you agree, that if the software makes a fault, you are always ready to take over. We are not responsible for any penalties given to your account! It is highly reccomended to use this software only on VIP servers, yet. This software is not an exploit (confirmed by the SCR staff team) and you can use it freely. Press ENTER to continue.")
-
-# window = tk.Tk()
-# window.title("SCR-Autopilot (scr-autopilot.mmaty.eu)")
-# window.minsize(600, 400)
-# spd_label = ttk.Label(window, text="Please check the cmd to get informations.")
-# lim_label = ttk.Label(window, text="")
-# signal_label = ttk.Label(window, text="")
-# spd_label.grid(column=0, row=0)
-# lim_label.grid(column=0, row=1)
-# signal_label.grid(column=0, row=2)
-
 display_size = ImageGrab.grab().size
 logging.debug(f'Display resolution: {display_size[0]}, {display_size[1]}')
-
+root = tkinter.Tk()
 resolution = input("What is the resolution? (fhd, hd) > ")
 if resolution == "fhd":
     spd_pos = 884, 957, 947, 985
@@ -56,6 +45,8 @@ if resolution == "fhd":
     distance_pos = 555, 1046, 605, 1070
     awsbutton_pos = 1364, 960, 1365, 961
     throttle_pos = 843, 931, 845, 1074
+    doors_pos = 718, 818, 719, 819
+    loading_pos = 447, 802, 448, 803
 elif resolution == "hd":
     print("The autopilot can be a little more buggy because of the HD resolution.")
     time.sleep(1)
@@ -73,10 +64,13 @@ else:
     input("Press ENTER to close the program.")
     sys.exit()
 
-max_speed = int ( input("What is the maximum speed of your train in MPH? (E.g. 100, 125, 75 etc.) > ") )
+
+max_speed = int(input(
+    "What is the maximum speed of your train in MPH? (E.g. 100, 125, 75 etc.) > "))
 
 PROCESS_PER_MONITOR_DPI_AWARE = 2
 MDT_EFFECTIVE_DPI = 0
+
 
 def print_dpi():
     shcore = ctypes.windll.shcore
@@ -95,137 +89,170 @@ def print_dpi():
         logging.debug(
             f"Monitor {i} = dpiX: {dpiX.value}, dpiY: {dpiY.value}"
         )
+
+
 print_dpi()
 
+pytesseract.pytesseract.tesseract_cmd = './Tesseract-OCR/tesseract.exe'
+active = False
+time.sleep(1)
+solve = None
 
-def main(lim=None):
 
-    # Path of tesseract executable
-    pytesseract.pytesseract.tesseract_cmd = './Tesseract-OCR/tesseract.exe'
+def task():
+    global solve
+    im = ImageGrab.grab(bbox=(awsbutton_pos))
+    pix = im.load()
+    awsbutton_value = pix[0, 0]  # Set the RGBA Value of the image (tuple)
+    if not awsbutton_value == (0, 0, 0):
+        pydirectinput.keyDown("q")
+        pydirectinput.keyUp("q")
+        print("AWSBUTTON:", "clicked")
+    logging.debug(f'AWS pixel RGB: {awsbutton_value}')
+    cap = ImageGrab.grab(bbox=(throttle_pos))
+    img = cap
+    count = 0
+    bottom_throttle_pixel = None
+    for y in range(img.height):
+        for x in range(img.width):
+            pixel = img.getpixel((x, y))
+            if y == img.height - 1:
+                bottom_throttle_pixel = pixel
+            if pixel == (0, 176, 85):
+                count += 1
 
-    s = sched.scheduler(time.time, time.sleep)
+    currentThrottle = int(math.floor(100 * (count / 142)))
+    speed = currentThrottle/100 * max_speed
 
-    def mainrun(sc):
-        im = ImageGrab.grab(bbox=(awsbutton_pos))
-        pix = im.load()
-        awsbutton_value = pix[0, 0]  # Set the RGBA Value of the image (tuple)
-        if not awsbutton_value == (0, 0, 0):
-            pydirectinput.keyDown("q")
-            pydirectinput.keyUp("q")
-            print("AWSBUTTON:", "clicked")
-        logging.debug(f'AWS pixel RGB: {awsbutton_value}')
-        cap = ImageGrab.grab(bbox=(throttle_pos))
-        img = cap
-        count = 0
-        bottom_throttle_pixel = None
-        for y in range(img.height):
-            for x in range(img.width):
-                pixel = img.getpixel((x,y))
-                if y == img.height - 1:
-                    bottom_throttle_pixel = pixel
-                if pixel == (0, 176, 85):
-                    count+=1
-        
-        currentThrottle = int( math.floor( 100 * (count / 142) ) )
-        speed = currentThrottle/100 * max_speed
+    if currentThrottle == 0:
+        logging.debug(f'Throttle pixel RGB: {bottom_throttle_pixel}')
+    print("Current throttle: ", currentThrottle)
 
-        if currentThrottle == 0:
-            logging.debug(f'Throttle pixel RGB: {bottom_throttle_pixel}')
-        print("Current throttle: ",currentThrottle)
+    #print(count,"pixels are green.")
+    if currentThrottle == None:
+        print("I can't read the throttle.")
 
-        #print(count,"pixels are green.")
-        if currentThrottle == None:
-            print("I can't read the throttle.")
-            
+    else:
+        # LIMIT
+        cap = ImageGrab.grab(bbox=(lim_pos))
+        cap = cap.filter(ImageFilter.MedianFilter())
+        cap = cv2.cvtColor(nm.array(cap), cv2.COLOR_RGB2GRAY)
+        tesstr = pytesseract.image_to_string(
+            cap,
+            config="--psm 7")
+        lim = 0
+        lim = [int(s) for s in re.findall(r'\b\d+\b', tesstr)]
+        if lim == []:
+            print("I can't read the limit.")
         else:
-            # LIMIT
-            cap = ImageGrab.grab(bbox=(lim_pos))
+            templim = lim[0]
+            lim = lim[0]
+            lim = int(lim)
+            im = ImageGrab.grab(bbox=(red_pos))
+            pix = im.load()
+            # Set the RGBA Value of the image (tuple)
+            red_value = pix[0, 0]
+            im = ImageGrab.grab(bbox=(yellow_pos))
+            pix = im.load()
+            # Set the RGBA Value of the image (tuple)
+            yellow_value = pix[0, 0]
+            im = ImageGrab.grab(bbox=(green_pos))
+            pix = im.load()
+            # Set the RGBA Value of the image (tuple)
+            green_value = pix[0, 0]
+            im = ImageGrab.grab(bbox=(double_yellow_pos))
+            pix = im.load()
+            # Set the RGBA Value of the image (tuple)
+            double_yellow_value = pix[0, 0]
+            if red_value == (255, 0, 0):
+                print("AWS:", "red")
+                lim = 0
+            if yellow_value == (255, 190, 0):
+                print("AWS:", "yellow")
+                if templim > 45:
+                    lim = 45
+            if double_yellow_value == (255, 190, 0):
+                print("AWS:", "double_yellow")
+                if templim > 75:
+                    lim = 75
+            if green_value == (0, 255, 0):
+                print("AWS:", "green")
+
+            print("Limit: ", lim)
+            limitThrottle = int((lim / max_speed) * 100)
+
+            print("Limit throttle: ", limitThrottle)
+
+            cap = ImageGrab.grab(bbox=(distance_pos))
             cap = cap.filter(ImageFilter.MedianFilter())
             cap = cv2.cvtColor(nm.array(cap), cv2.COLOR_RGB2GRAY)
             tesstr = pytesseract.image_to_string(
                 cap,
                 config="--psm 7")
-            lim = 0
-            lim = [int(s) for s in re.findall(r'\b\d+\b', tesstr)]
-            if lim == []:
-                print("I can't read the limit.")
-            else:
-                templim = lim[0]
-                lim = lim[0]
-                lim = int(lim)
-                im = ImageGrab.grab(bbox=(red_pos))
-                pix = im.load()
-                # Set the RGBA Value of the image (tuple)
-                red_value = pix[0, 0]
-                im = ImageGrab.grab(bbox=(yellow_pos))
-                pix = im.load()
-                # Set the RGBA Value of the image (tuple)
-                yellow_value = pix[0, 0]
-                im = ImageGrab.grab(bbox=(green_pos))
-                pix = im.load()
-                # Set the RGBA Value of the image (tuple)
-                green_value = pix[0, 0]
-                im = ImageGrab.grab(bbox=(double_yellow_pos))
-                pix = im.load()
-                # Set the RGBA Value of the image (tuple)
-                double_yellow_value = pix[0, 0]
-                if red_value == (255, 0, 0):
-                    print("AWS:", "red")
-                    lim = 0
-                if yellow_value == (255, 190, 0):
-                    print("AWS:", "yellow")
-                    if templim > 45:
-                        lim = 45
-                if double_yellow_value == (255, 190, 0):
-                    print("AWS:", "double_yellow")
-                    if templim > 75:
-                        lim = 75
-                if green_value == (0, 255, 0):
-                    print("AWS:", "green")
-
-                print("Limit: ", lim)
-                limitThrottle = int( (lim / max_speed) * 100 )
-
-                print("Limit throttle: ",limitThrottle)
-
-                cap = ImageGrab.grab(bbox=(distance_pos))
-                cap = cap.filter(ImageFilter.MedianFilter())
-                cap = cv2.cvtColor(nm.array(cap), cv2.COLOR_RGB2GRAY)
-                tesstr = pytesseract.image_to_string(
-                    cap,
-                    config="--psm 7")
-                distance = 0
-                distance = [int(s) for s in re.findall(r'\b\d+\b', tesstr)]
-                try:
-                    m_distance = distance[0]
-                    distance = distance[1]
-                    if distance <= 50 and distance >= 39 and m_distance == 0:
-                        print(
-                            "Autopilot will will be disengaged 0.2 miles before the station.")
-                    elif distance <= 20 and m_distance == 0:
-                        if lim >= 45:
-                            print("Slowing down to 45 to prepare for station arrival.")
-                            throttle(currentThrottle, int( (45 / max_speed) * 100 ))
-                        else:
-                            throttle(currentThrottle, limitThrottle)
-                        print("Autopilot disengaged.")
-                        input("Press enter to engage.")
-                        print("Autopilot engaged.")
-                        time.sleep(1)
+            distance = 0
+            distance = [int(s) for s in re.findall(r'\b\d+\b', tesstr)]
+            try:
+                m_distance = distance[0]
+                distance = distance[1]
+                if distance == 00 and m_distance == 0:
+                    im = ImageGrab.grab(bbox=(loading_pos))
+                    pix = im.load()
+                    loading_value = pix[0, 0]
+                    if loading_value == (7, 148, 218) or loading_value == (7, 147, 218):
+                        print("CLOSING DOORS")
+                        pydirectinput.keyDown("t")
+                        pydirectinput.keyUp("t")
+                        time.sleep(4)
+                    elif loading_value == (6, 133, 196) or loading_value == (6, 132, 196):
+                        print("LOADING")
+                    else:
+                        print("Autopilot is currently stopping.")
+                        pydirectinput.keyDown("s")
+                        time.sleep(5)
+                        pydirectinput.keyUp("s")
+                        pydirectinput.keyDown("t")
+                        pydirectinput.keyUp("t")
+                elif distance <= 20 and m_distance == 0:
+                    if lim >= 45:
+                        print("Slowing down to 45 to prepare for station arrival.")
+                        throttle(currentThrottle, int((45 / max_speed) * 100))
                     else:
                         throttle(currentThrottle, limitThrottle)
-                except IndexError:
-                    print("Can't read the distance!")
-
-        # END_LIMIT
-        s.enter(1, 1, mainrun, (sc,))
-
-    s.enter(1, 1, mainrun, (s,))
-    s.run()
+                else:
+                    throttle(currentThrottle, limitThrottle)
+            except IndexError:
+                pass
+    solve = root.after(1000, task)
 
 
-time.sleep(1)
-# Calling the function
-print("Autopilot engaged.")
-main()
+def onClick():
+    global active
+    if active == False:
+        active = True
+        button.configure(bg="green")
+        root.after(1000, task)
+    else:
+        active = False
+        button.configure(bg="red")
+        root.after_cancel(solve)
 
+
+photo = tkinter.PhotoImage(file="img/ap_icon.png")
+root.title("button")
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
+w = 100
+h = 80
+x = 1599
+y = 986
+root.geometry('%dx%d+%d+%d' % (w, h, x, y))
+root.lift()
+root.overrideredirect(True)
+root.call('wm', 'attributes', '.', '-topmost', '1')
+button = tkinter.Button(root, text="button1",
+                        image=photo, bg="red", command=onClick)
+button.grid(column=1, row=1, sticky=tkinter.E+tkinter.W)
+label = tkinter.Label(root, text="test")
+label.grid(column=1, row=2, sticky=tkinter.E+tkinter.W)
+root.grid_columnconfigure(2, weight=2)
+root.mainloop()
