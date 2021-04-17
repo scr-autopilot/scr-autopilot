@@ -45,8 +45,8 @@ if resolution == "fhd":
     distance_pos = 555, 1046, 605, 1070
     awsbutton_pos = 1364, 960, 1365, 961
     throttle_pos = 843, 931, 845, 1074
-    doors_pos = 718, 818, 719, 819
-    loading_pos = 447, 802, 448, 803
+    doors_pos = 870,822,871,823
+    loading_pos = 781,823,782,824
 elif resolution == "hd":
     print("The autopilot can be a little more buggy because of the HD resolution.")
     time.sleep(1)
@@ -198,12 +198,15 @@ def task():
                     im = ImageGrab.grab(bbox=(loading_pos))
                     pix = im.load()
                     loading_value = pix[0, 0]
-                    if loading_value == (7, 148, 218) or loading_value == (7, 147, 218):
+                    im = ImageGrab.grab(bbox=(doors_pos))
+                    pix = im.load()
+                    doors_value = pix[0, 0]
+                    if doors_value == (255, 255, 255):
                         print("CLOSING DOORS")
                         pydirectinput.keyDown("t")
                         pydirectinput.keyUp("t")
                         time.sleep(4)
-                    elif loading_value == (6, 133, 196) or loading_value == (6, 132, 196):
+                    elif loading_value == (255, 255, 255):
                         print("LOADING")
                     else:
                         print("Autopilot is currently stopping.")
@@ -214,15 +217,15 @@ def task():
                         pydirectinput.keyUp("t")
                 elif distance <= 20 and m_distance == 0:
                     if lim >= 45:
-                        print("Slowing down to 45 to prepare for station arrival.")
-                        throttle(currentThrottle, int((45 / max_speed) * 100))
+                        print("Slowing down to prepare for station arrival.")
+                        throttle(currentThrottle, int((42 / max_speed) * 100))
                     else:
                         throttle(currentThrottle, limitThrottle)
                 else:
                     throttle(currentThrottle, limitThrottle)
             except IndexError:
                 pass
-    solve = root.after(1000, task)
+    solve = root.after(600, task)
 
 
 def onClick():
@@ -230,7 +233,7 @@ def onClick():
     if active == False:
         active = True
         button.configure(bg="green")
-        root.after(1000, task)
+        root.after(600, task)
     else:
         active = False
         button.configure(bg="red")
@@ -241,8 +244,8 @@ photo = tkinter.PhotoImage(file="img/ap_icon.png")
 root.title("button")
 screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
-w = 100
-h = 80
+w = 50
+h = 50
 x = 1599
 y = 986
 root.geometry('%dx%d+%d+%d' % (w, h, x, y))
@@ -252,7 +255,5 @@ root.call('wm', 'attributes', '.', '-topmost', '1')
 button = tkinter.Button(root, text="button1",
                         image=photo, bg="red", command=onClick)
 button.grid(column=1, row=1, sticky=tkinter.E+tkinter.W)
-label = tkinter.Label(root, text="test")
-label.grid(column=1, row=2, sticky=tkinter.E+tkinter.W)
 root.grid_columnconfigure(2, weight=2)
 root.mainloop()
