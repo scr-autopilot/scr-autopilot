@@ -17,13 +17,13 @@ import logging
 from win32 import win32api
 import ctypes
 
-print("SCR-Autopilot v0.2.2-beta by MaTY (matyroblox01)")
+print("SCR-Autopilot v0.3-beta by MaTY (matyroblox01)")
 print("Checking for updates...")
 URL = "https://matyapi.matymt.repl.co/scr-autopilot/newest-version"
 r = requests.get(url=URL)
 data = r.json()
 version = data['version']
-if not version == "0.2.2":
+if not version == "0.3":
     print("Your version is outdated! Please install the latest release on https://github.com/MaTY-MT/scr-autopilot/releases")
 else:
     print("Your version is up-to-date.")
