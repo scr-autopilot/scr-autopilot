@@ -22,6 +22,7 @@ All-route autopilot for SCR.
  - Windows scaling set to 100%
  - Roblox set to fullscreen
  - Large GUI in SCR
+ - SCR in English
 
 -----
  1. Download the installer of the [latest release](https://github.com/MaTY-MT/scr-autopilot/releases)
