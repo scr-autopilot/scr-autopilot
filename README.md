@@ -22,6 +22,7 @@ All-route autopilot for SCR.
  - Windows scaling set to 100%
  - Roblox set to fullscreen
  - Large GUI in SCR
+ - SCR in English
 
 -----
  1. Download the installer of the [latest release](https://github.com/MaTY-MT/scr-autopilot/releases)
@@ -29,5 +30,7 @@ All-route autopilot for SCR.
  3. Launch SCR-Autopilot by searching it in Windows, or clicking on the desktop shortcut
  4. Select if you have HD or FHD resolution (type "hd" without the quotation marks when HD, "fhd" without the quotation marks when FHD)
  5. Type the top speed of your train in MPH
- 6. Alt+Tab into the Roblox and enjoy autopilot 
+ 6. Select your train, route and start the game
+ 7. Hit the red autopilot button
+ 8. Click anywhere in Roblox
 
