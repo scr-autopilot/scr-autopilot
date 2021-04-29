@@ -1,6 +1,6 @@
 # SCR-Autopilot
 [![Discord](https://img.shields.io/discord/806191973362040893.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC1)](https://discord.gg/jtQ2R8cxWq)
-[![Downloads](https://img.shields.io/github/downloads/maty-mt/scr-autopilot/total)
+![Downloads](https://img.shields.io/github/downloads/maty-mt/scr-autopilot/total)
 [![Releases](https://img.shields.io/github/v/release/maty-mt/scr-autopilot)](https://github.com/MaTY-MT/scr-autopilot/releases)
 <br>
 All-route autopilot for SCR.
