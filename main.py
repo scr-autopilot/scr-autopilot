@@ -16,6 +16,8 @@ import requests
 import logging
 from win32 import win32api
 import ctypes
+from ahk import AHK
+ahk = AHK()
 
 print("SCR-Autopilot v0.3.1-beta by MaTY (matyroblox01)")
 print("Checking for updates...")
@@ -99,6 +101,7 @@ pytesseract.pytesseract.tesseract_cmd = './Tesseract-OCR/tesseract.exe'
 active = False
 time.sleep(1)
 solve = None
+continuing = False
 
 print()
 print("""  ___  ___ ___      _       _            _ _     _   
@@ -112,16 +115,16 @@ print("Press the red button that has appeared on your screen to engage the autop
 
 def task():
     global solve
+    global continuing
     if continue_route == 1:
-        print("continue?")
         im = ImageGrab.grab(bbox=(continue_pos))
         pix = im.load()
         continue_value = pix[0, 0]  # Set the RGBA Value of the image (tuple)
         print(continue_value)
         if continue_value == (104,104,104):
-            pydirectinput.moveTo(991, 470)
-            pydirectinput.click()
-            
+            ahk.click(991, 470)
+            ahk.click(327, 833)
+            continuing = True
     im = ImageGrab.grab(bbox=(awsbutton_pos))
     pix = im.load()
     awsbutton_value = pix[0, 0]  # Set the RGBA Value of the image (tuple)
@@ -215,7 +218,7 @@ def task():
             try:
                 m_distance = distance[0]
                 distance = distance[1]
-                if distance == 00 and m_distance == 0:
+                if distance == 00 and m_distance == 0 or continuing == True:
                     im = ImageGrab.grab(bbox=(loading_pos))
                     pix = im.load()
                     loading_value = pix[0, 0]
@@ -227,6 +230,7 @@ def task():
                         pydirectinput.keyDown("t")
                         pydirectinput.keyUp("t")
                         time.sleep(4)
+                        continuing = False
                     elif loading_value == (255, 255, 255):
                         print("LOADING")
                     else:
