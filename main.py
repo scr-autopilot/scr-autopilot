@@ -16,6 +16,8 @@ import requests
 import logging
 from win32 import win32api
 import ctypes
+from ahk import AHK
+ahk = AHK()
 
 print("SCR-Autopilot v0.3.1-beta by MaTY (matyroblox01)")
 print("Checking for updates...")
@@ -47,6 +49,7 @@ if resolution == "fhd":
     throttle_pos = 843, 931, 845, 1074
     doors_pos = 870,822,871,823
     loading_pos = 781,823,782,824
+    continue_pos = 991,470,992,471
 elif resolution == "hd":
     print("The autopilot can be a little more buggy because of the HD resolution.")
     time.sleep(1)
@@ -67,6 +70,7 @@ else:
 
 max_speed = int(input(
     "What is the maximum speed of your train in MPH? (E.g. 100, 125, 75 etc.) > "))
+continue_route = int(input("Would you like to automatically continue in the route after finsihing? (0 - no, 1 - yes) > "))
 
 PROCESS_PER_MONITOR_DPI_AWARE = 2
 MDT_EFFECTIVE_DPI = 0
@@ -97,10 +101,30 @@ pytesseract.pytesseract.tesseract_cmd = './Tesseract-OCR/tesseract.exe'
 active = False
 time.sleep(1)
 solve = None
+continuing = False
+
+print()
+print("""  ___  ___ ___      _       _            _ _     _   
+ / __|/ __| _ \___ /_\ _  _| |_ ___ _ __(_) |___| |_
+ \__ \ (__|   /___/ _ \ || |  _/ _ \ '_ \ | / _ \  _|
+ |___/\___|_|_\  /_/ \_\_,_|\__\___/ .__/_|_\___/\__|
+                                   |_|               
+""")
+print("Press the red button that has appeared on your screen to engage the autopilot. You can press the button again to disengage the autopilot.")
 
 
 def task():
     global solve
+    global continuing
+    if continue_route == 1:
+        im = ImageGrab.grab(bbox=(continue_pos))
+        pix = im.load()
+        continue_value = pix[0, 0]  # Set the RGBA Value of the image (tuple)
+        print(continue_value)
+        if continue_value == (104,104,104):
+            ahk.click(991, 470)
+            ahk.click(327, 833)
+            continuing = True
     im = ImageGrab.grab(bbox=(awsbutton_pos))
     pix = im.load()
     awsbutton_value = pix[0, 0]  # Set the RGBA Value of the image (tuple)
@@ -194,7 +218,7 @@ def task():
             try:
                 m_distance = distance[0]
                 distance = distance[1]
-                if distance == 00 and m_distance == 0:
+                if distance == 00 and m_distance == 0 or continuing == True:
                     im = ImageGrab.grab(bbox=(loading_pos))
                     pix = im.load()
                     loading_value = pix[0, 0]
@@ -206,6 +230,7 @@ def task():
                         pydirectinput.keyDown("t")
                         pydirectinput.keyUp("t")
                         time.sleep(4)
+                        continuing = False
                     elif loading_value == (255, 255, 255):
                         print("LOADING")
                     else:
