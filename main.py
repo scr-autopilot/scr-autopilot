@@ -19,8 +19,8 @@ import ctypes
 from ahk import AHK
 ahk = AHK()
 
-print("SCR-Autopilot v0.3.1-beta by MaTY (matyroblox01)")
-print("Checking for updates...")
+print("SCR-Autopilot by MaTY (matyroblox01)")
+"""print("Checking for updates...")
 URL = "https://matyapi.matymt.repl.co/scr-autopilot/newest-version"
 r = requests.get(url=URL)
 data = r.json()
@@ -28,7 +28,7 @@ version = data['version']
 if not version == "0.3.1":
     print("Your version is outdated! Please install the latest release on https://github.com/MaTY-MT/scr-autopilot/releases")
 else:
-    print("Your version is up-to-date.")
+    print("Your version is up-to-date.")"""
 logging.basicConfig(filename='autopilot.log', filemode='w',
                     level=logging.DEBUG, format="[%(levelname)s] [%(asctime)s] %(message)s")
 
