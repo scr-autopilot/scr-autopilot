@@ -45,11 +45,11 @@ if resolution == "fhd":
     double_yellow_pos = 1438, 950, 1439, 951
     red_pos = 1438, 1045, 1439, 1046
     distance_pos = 555, 1046, 605, 1070
-    awsbutton_pos = 1364, 960, 1365, 961
+    awsbutton_pos = 1330,994,1331,995
     throttle_pos = 843, 931, 845, 1074
-    doors_pos = 870,822,871,823
-    loading_pos = 781,823,782,824
-    continue_pos = 991,470,992,471
+    doors_pos = 870, 822, 871, 823
+    loading_pos = 781, 823, 782, 824
+    continue_pos = 1032,460,1033,461
 elif resolution == "hd":
     print("The autopilot can be a little more buggy because of the HD resolution.")
     time.sleep(1)
@@ -70,7 +70,8 @@ else:
 
 max_speed = int(input(
     "What is the maximum speed of your train in MPH? (E.g. 100, 125, 75 etc.) > "))
-continue_route = int(input("Would you like to automatically continue in the route after finsihing? (0 - no, 1 - yes) > "))
+continue_route = int(input(
+    "Would you like to automatically continue in the route after finsihing? (0 - no, 1 - yes) > "))
 
 PROCESS_PER_MONITOR_DPI_AWARE = 2
 MDT_EFFECTIVE_DPI = 0
@@ -121,14 +122,14 @@ def task():
         pix = im.load()
         continue_value = pix[0, 0]  # Set the RGBA Value of the image (tuple)
         print(continue_value)
-        if continue_value == (104,104,104):
+        if continue_value == (255,255,255):
             ahk.click(991, 470)
             ahk.click(327, 833)
             continuing = True
     im = ImageGrab.grab(bbox=(awsbutton_pos))
     pix = im.load()
     awsbutton_value = pix[0, 0]  # Set the RGBA Value of the image (tuple)
-    if not awsbutton_value == (0, 0, 0):
+    if awsbutton_value == (255,255,255):
         pydirectinput.keyDown("q")
         pydirectinput.keyUp("q")
         print("AWSBUTTON:", "clicked")
