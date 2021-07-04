@@ -12,14 +12,16 @@ All-route autopilot for SCR.
  - pytesseract
  - pydirectinput
  - pillow
- - pyttsx3
+ - logging
+ - ctypes
+ - ahk
  - tkinter
  - opencv-python
 
 ## Installation
 **You must have this confirguration to make autopilot work properly:**
 
- - Windows 10
+ - Windows 10 or Windows 11
  - FHD or HD resolution
  - Windows scaling set to 100%
  - Roblox set to fullscreen
