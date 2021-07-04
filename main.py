@@ -35,7 +35,6 @@ logging.basicConfig(filename='autopilot.log', filemode='w',
 input("By using this software, you agree, that if the software makes a fault, you are always ready to take over. We are not responsible for any penalties given to your account! It is highly reccomended to use this software only on VIP servers, yet. This software is not an exploit (confirmed by the SCR staff team) and you can use it freely. Press ENTER to continue.")
 display_size = ImageGrab.grab().size
 logging.debug(f'Display resolution: {display_size[0]}, {display_size[1]}')
-root = tkinter.Tk()
 resolution = input("What is the resolution? (fhd, hd) > ")
 if resolution == "fhd":
     spd_pos = 884, 957, 947, 985
@@ -113,7 +112,7 @@ print("""  ___  ___ ___      _       _            _ _     _
 """)
 print("Press the red button that has appeared on your screen to engage the autopilot. You can press the button again to disengage the autopilot.")
 
-
+root = tkinter.Tk()
 def task():
     global solve
     global continuing
