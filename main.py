@@ -19,7 +19,7 @@ import ctypes
 from ahk import AHK
 import webbrowser
 ahk = AHK()
-
+continue_route = False
 root = tkinter.Tk()
 photo = tkinter.PhotoImage(file="img/ap_icon.png")
 root.title("button")
@@ -57,7 +57,7 @@ else:
 logging.basicConfig(filename='autopilot.log', filemode='w',
                     level=logging.DEBUG, format="[%(levelname)s] [%(asctime)s] %(message)s")
 
-warningask = messagebox.askokcancel("Warning", "By using this software, you agree that if the software makes a fault, you are always ready to take over. We are not responsible for any penalties given to your account! It is highly recommended to use this software only on VIP servers. This software is not an exploit (confirmed by the SCR staff team) and you can use it freely.")
+warningask = messagebox.askokcancel("Info", "By using this software, you agree that if the software makes a fault, you are always ready to take over. We are not responsible for any penalties given to your account! It is highly recommended to use this software only on VIP servers. This software is not an exploit (confirmed by the SCR staff team) and you can use it freely.")
 if warningask == False:
     exit()
 display_size = ImageGrab.grab().size
@@ -97,11 +97,13 @@ else:
 
 max_speed = simpledialog.askinteger(
     "Question", "What is the maximum speed of your train in MPH? (E.g. 100, 125, 75 etc.)", minvalue=1)
-continue_route = simpledialog.askinteger(
-    "Question", "Would you like to automatically continue in the route after finsihing? (0 - no, 1 - yes)", minvalue=0, maxvalue=1)
-if max_speed == None or continue_route == None:
+continue_ask = messagebox.askyesno(
+    "Question", "Would you like to automatically continue in the route after finsihing?")
+if max_speed == None:
     messagebox.showerror("Error", 'Settings incorrect. Please try again.')
     exit()
+if continue_ask == True:
+    continue_route = True
 PROCESS_PER_MONITOR_DPI_AWARE = 2
 MDT_EFFECTIVE_DPI = 0
 
