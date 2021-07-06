@@ -151,7 +151,7 @@ print("Automatically continue:", continue_route)
 def task():
     global solve
     global continuing
-    if continue_route == 1:
+    if continue_route == True:
         im = ImageGrab.grab(bbox=(continue_pos))
         pix = im.load()
         continue_value = pix[0, 0]  # Set the RGBA Value of the image (tuple)
