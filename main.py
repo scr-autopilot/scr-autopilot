@@ -18,8 +18,6 @@ from win32 import win32api
 import ctypes
 from ahk import AHK
 import webbrowser
-ahk = AHK()
-continue_route = False
 root = tkinter.Tk()
 photo = tkinter.PhotoImage(file="img/ap_icon.png")
 root.title("button")
@@ -37,6 +35,17 @@ button = tkinter.Button(root, text="button1",
                         image=photo, bg="orange")
 button.grid(column=1, row=1, sticky=tkinter.E+tkinter.W)
 root.grid_columnconfigure(2, weight=2)
+
+try:
+    ahk = AHK()
+except:
+    messagebox.showerror(
+        "Error", 'AutoHotKey was not found on PATH.')
+    ahkask = messagebox.askyesno("Question", "Open a guide on how to install & setup AHK with SCR-Autopilot?")
+    if ahkask == True:
+        webbrowser.open("https://scr-autopilot.mmaty.eu/ahksetup")
+    exit()
+continue_route = False
 
 print("SCR-Autopilot v0.3.1-beta by MaTY (matyroblox01)")
 print("Checking for updates...")
