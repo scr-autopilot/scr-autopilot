@@ -10,7 +10,6 @@ from PIL import ImageFilter
 import sched
 import sys
 import tkinter
-from tkinter import ttk
 from tkinter import ttk, simpledialog, messagebox
 from throttle import *
 import requests
@@ -384,8 +383,6 @@ if __name__ == '__main__':
             active.value = False
             button.configure(bg="red")
             root.after_cancel(solve)
-
-
 
     button.configure(bg="red", command=onClick)
     switchask = messagebox.askyesno(
