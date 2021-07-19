@@ -192,10 +192,13 @@ if __name__ == '__main__':
     solve = None
     continuing = False
 
-    print("Starting the webserver...")
-    p = Process(target=ws, args=(active,))
-    p.start()
-    time.sleep(3)
+    wsask = continue_ask = messagebox.askyesno(
+        "Question", "Would you like to start a webserver so you can remotely control the autopilot?")
+    if wsask == True:
+        print("Starting the webserver...")
+        p = Process(target=ws, args=(active,))
+        p.start()
+        time.sleep(3)
     print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
     print("""  ___  ___ ___      _       _            _ _     _   
     / __|/ __| _ \___ /_\ _  _| |_ ___ _ __(_) |___| |_
@@ -204,7 +207,8 @@ if __name__ == '__main__':
                                     |_|               
     """)
     print("Press the red button that has appeared on your screen to engage the autopilot. You can press the button again to disengage the autopilot.")
-    print("For the remote control, navigate to:", "http://" + socket.gethostbyname(socket.gethostname()) + ":8000","\nYou need to be on a same network to open the website.")
+    if wsask == True:
+        print("For the remote control, navigate to:", "http://" + socket.gethostbyname(socket.gethostname()) + ":8000","\nYou need to be on a same network to open the website.")
     print("Settings:")
     print("Screen resolution:", resolution)
     print("Train max speed:", max_speed)
