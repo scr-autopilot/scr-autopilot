@@ -25,9 +25,9 @@ from flask import render_template
 from flask import request, redirect
 
 active = Value(ctypes.c_bool, False)
-newchange = False
+newchange = Value(ctypes.c_bool, False)
 
-def ws(active):
+def ws(active, newchange):
     app = Flask(__name__)
     @app.route('/')
     def home():
@@ -52,6 +52,7 @@ def ws(active):
 
     @app.route("/send", methods=["POST"])
     def send():
+        newchange.value = True
         form = request.form
         try:
             if form["switch"] == "on":
@@ -60,7 +61,6 @@ def ws(active):
                 active.value = False
         except:
             active.value = False
-        newchange = True
         return redirect("/")
 
     def run():
@@ -197,7 +197,7 @@ if __name__ == '__main__':
         "Question", "Would you like to start a webserver so you can remotely control the autopilot?")
     if wsask == True:
         print("Starting the webserver...")
-        p = Process(target=ws, args=(active,))
+        p = Process(target=ws, args=(active,newchange,))
         p.start()
         time.sleep(3)
     print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
@@ -366,9 +366,9 @@ if __name__ == '__main__':
 
     checkChanges = None
     def f_checkChanges():
-        global newchange
-        if newchange == True:
-            global checkChanges
+        global checkChanges
+        if newchange.value == True:
+            newchange.value = False
             if active.value == True:
                 button.configure(bg="green")
                 root.after(600, task)
@@ -378,7 +378,6 @@ if __name__ == '__main__':
                     root.after_cancel(solve)
                 except:
                     pass
-            newchange = False
         checkChanges = root.after(2000, f_checkChanges)
     checkChanges = root.after(2000, f_checkChanges)
 
