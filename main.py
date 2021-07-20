@@ -25,6 +25,7 @@ from flask import render_template
 from flask import request, redirect
 
 active = Value(ctypes.c_bool, False)
+newchange = False
 
 def ws(active):
     app = Flask(__name__)
@@ -59,7 +60,7 @@ def ws(active):
                 active.value = False
         except:
             active.value = False
-        print(active)
+        newchange = True
         return redirect("/")
 
     def run():
@@ -208,7 +209,7 @@ if __name__ == '__main__':
     """)
     print("Press the red button that has appeared on your screen to engage the autopilot. You can press the button again to disengage the autopilot.")
     if wsask == True:
-        print("For the remote control, navigate to:", "http://" + socket.gethostbyname(socket.gethostname()) + ":8000","\nYou need to be on a same network to open the website.")
+        print("\n\nFor the remote control, navigate to:", "http://" + socket.gethostbyname(socket.gethostname()) + ":8000 on a different device.","\nYou need to be on a same network to open the website.\n\n")
     print("Settings:")
     print("Screen resolution:", resolution)
     print("Train max speed:", max_speed)
@@ -365,16 +366,19 @@ if __name__ == '__main__':
 
     checkChanges = None
     def f_checkChanges():
-        global checkChanges
-        if active.value == True:
-            button.configure(bg="green")
-            root.after(600, task)
-        elif active.value == False:
-            button.configure(bg="red")
-            try:
-                root.after_cancel(solve)
-            except:
-                pass
+        global newchange
+        if newchange == True:
+            global checkChanges
+            if active.value == True:
+                button.configure(bg="green")
+                root.after(600, task)
+            elif active.value == False:
+                button.configure(bg="red")
+                try:
+                    root.after_cancel(solve)
+                except:
+                    pass
+            newchange = False
         checkChanges = root.after(2000, f_checkChanges)
     checkChanges = root.after(2000, f_checkChanges)
 
