@@ -22,7 +22,7 @@ from multiprocessing import Process, Value
 import socket
 from flask import Flask
 from flask import render_template
-from flask import request, redirect
+from flask import request, redirect, send_file
 
 active = Value(ctypes.c_bool, False)
 newchange = Value(ctypes.c_bool, False)
@@ -49,6 +49,11 @@ def ws(active, newchange):
         active.value = True
         status = { "toggle": active.value, "response": 200 }
         return status
+    @app.route('/shot')
+    def shot():
+        im = ImageGrab.grab()
+        im.save("temp/screenshot.png")
+        return send_file("temp/screenshot.png", "PNG")
 
     @app.route("/send", methods=["POST"])
     def send():
@@ -64,7 +69,7 @@ def ws(active, newchange):
         return redirect("/")
 
     def run():
-        app.run(host='0.0.0.0', port='8000')
+        app.run(host='0.0.0.0', port='7878')
     run()
 
 if __name__ == '__main__':
@@ -209,7 +214,7 @@ if __name__ == '__main__':
     """)
     print("Press the red button that has appeared on your screen to engage the autopilot. You can press the button again to disengage the autopilot.")
     if wsask == True:
-        print("\n\nFor the remote control, navigate to:", "http://" + socket.gethostbyname(socket.gethostname()) + ":8000 on a different device.","\nYou need to be on a same network to open the website.\n\n")
+        print("\n\nFor the remote control, navigate to:", "http://" + socket.gethostbyname(socket.gethostname()) + ":7878 on a different device.","\nYou need to be on a same network to open the website.\n\n")
     print("Settings:")
     print("Screen resolution:", resolution)
     print("Train max speed:", max_speed)
@@ -377,7 +382,7 @@ if __name__ == '__main__':
                 try:
                     root.after_cancel(solve)
                 except:
-                    pass
+                    print("Error...")
         checkChanges = root.after(2000, f_checkChanges)
     checkChanges = root.after(2000, f_checkChanges)
 
