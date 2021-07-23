@@ -74,7 +74,7 @@ def ws(active, newchange):
 
 if __name__ == '__main__':
     root = tkinter.Tk()
-    photo = tkinter.PhotoImage(file="img/ap_icon.png")
+    photo = tkinter.PhotoImage(file="img/ap_icon_new.png")
     root.title("button")
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
