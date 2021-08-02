@@ -90,7 +90,6 @@ if __name__ == '__main__':
                             image=photo, bg="orange")
     button.grid(column=1, row=1, sticky=tkinter.E+tkinter.W)
     root.grid_columnconfigure(2, weight=2)
-
     try:
         ahk = AHK()
     except:
@@ -103,6 +102,7 @@ if __name__ == '__main__':
     continue_route = False
 
     print("SCR-Autopilot v0.3.1-beta by MaTY (matyroblox01)")
+    
     print("Checking for updates...")
     URL = "https://matyapi.matymt.repl.co/scr-autopilot/newest-version"
     r = requests.get(url=URL)
@@ -258,7 +258,6 @@ if __name__ == '__main__':
         if currentThrottle == 0:
             logging.debug(f'Throttle pixel RGB: {bottom_throttle_pixel}')
         print("Current throttle: ", currentThrottle)
-
         if currentThrottle == None:
             messagebox.showerror("Error", "I can't read the throttle")
             supportask = messagebox.askyesno(
@@ -286,6 +285,37 @@ if __name__ == '__main__':
                         "https://discord.gg/jtQ2R8cxWq")
                     exit()
             else:
+                cap = ImageGrab.grab()
+                src = nm.array(cap)
+                gray = cv2.cvtColor(src, cv2.COLOR_RGB2GRAY)
+                gray = cv2.medianBlur(gray, 5)
+                rows = gray.shape[0]
+                circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, rows / 8,
+                                        param1=100, param2=30,
+                                        minRadius=1, maxRadius=30)
+                
+                if circles is not None:
+                    circles = nm.uint16(nm.around(circles))
+                    for i in circles[0, :]:
+                        x = i[0] - i[2]
+                        y = i[1] - i[2]
+                        w = 2*i[2]
+                        h = 2*i[2]
+                        center = (i[0], i[1])
+                        print("gfdgfdgfdgfdgdf")
+                        button.configure(bg="pink", command=onClick)
+                        if w > 39:
+                            print("dfguidfsgbduibgidfgbuidfbi")
+                            button.configure(bg="black", command=onClick)
+                            txt = pytesseract.image_to_string(gray[y:y+h, x:x+w], config="--psm 6")
+                            print(txt)
+                            if "W" in txt:
+                                pydirectinput.keyDown("h")
+                                pydirectinput.keyUp("h")
+                        cv2.circle(src, center, 1, (0, 100, 100), 3)
+                        radius = i[2]
+                        cv2.circle(src, center, radius, (255, 0, 255), 3)
+
                 templim = lim[0]
                 lim = lim[0]
                 lim = int(lim)
