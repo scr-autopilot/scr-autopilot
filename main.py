@@ -227,9 +227,9 @@ if __name__ == '__main__':
             pix = im.load()
             continue_value = pix[0, 0]  # Set the RGBA Value of the image (tuple)
             if continue_value == (255, 255, 255):
+                continuing = True
                 ahk.click(991, 470)
                 ahk.click(327, 833)
-                continuing = True
         im = ImageGrab.grab(bbox=(awsbutton_pos))
         pix = im.load()
         awsbutton_value = pix[0, 0]  # Set the RGBA Value of the image (tuple)
@@ -275,13 +275,14 @@ if __name__ == '__main__':
             lim = 0
             lim = [int(s) for s in re.findall(r'\b\d+\b', tesstr)]
             if lim == []:
-                messagebox.showerror("Error", "I can't read the limit")
-                supportask = messagebox.askyesno(
-                    "Question", "It looks like you got an error. You can try again, but if this error persists, you can join the support server. Do you want to join the support server on Discord?")
-                if supportask == True:
-                    webbrowser.open(
-                        "https://discord.gg/jtQ2R8cxWq")
-                    exit()
+                if continuing == False:
+                    messagebox.showerror("Error", "I can't read the limit")
+                    supportask = messagebox.askyesno(
+                        "Question", "It looks like you got an error. You can try again, but if this error persists, you can join the support server. Do you want to join the support server on Discord?")
+                    if supportask == True:
+                        webbrowser.open(
+                            "https://discord.gg/jtQ2R8cxWq")
+                        exit()
             else:
                 cap = ImageGrab.grab()
                 src = nm.array(cap)
