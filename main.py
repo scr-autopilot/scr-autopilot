@@ -300,13 +300,8 @@ if __name__ == '__main__':
                         w = 2*i[2]
                         h = 2*i[2]
                         center = (i[0], i[1])
-                        print("gfdgfdgfdgfdgdf")
-                        button.configure(bg="pink", command=onClick)
                         if w > 39:
-                            print("dfguidfsgbduibgidfgbuidfbi")
-                            button.configure(bg="black", command=onClick)
                             txt = pytesseract.image_to_string(gray[y:y+h, x:x+w], config="--psm 6")
-                            print(txt)
                             if "W" in txt:
                                 pydirectinput.keyDown("h")
                                 pydirectinput.keyUp("h")
