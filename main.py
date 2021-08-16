@@ -97,14 +97,14 @@ if __name__ == '__main__':
         exit()
     continue_route = False
 
-    print("SCR-Autopilot v0.3.1-beta by MaTY (matyroblox01)")
+    print("SCR-Autopilot v0.4-beta by MaTY (matyroblox01)")
     
     print("Checking for updates...")
     URL = "https://matyapi.matymt.repl.co/scr-autopilot/newest-version"
     r = requests.get(url=URL)
     data = r.json()
     version = data['version']
-    if not version == "0.3.1":
+    if not version == "0.4":
         print("Your version is outdated! Please install the latest release on https://github.com/scr-autopilot/scr-autopilot/releases")
         outdatedask = messagebox.askyesno(
             "SCR-Autopilot", "Your version of SCR-Autopilot is outdated. Do you want to go to the releases page to download a new version?")
@@ -138,7 +138,9 @@ if __name__ == '__main__':
         loading_pos = 781, 823, 782, 824
         continue_pos = 1032, 460, 1033, 461
     elif resolution == "hd":
-        print("The autopilot can be a little more buggy because of the HD resolution.")
+        messagebox.showerror(
+            "Error", 'HD resolution is not supported in this version of SCR-Autopilot. Please install v0.3.1-beta to use the HD resolution.')
+        sys.exit()
         time.sleep(1)
         spd_pos = 573, 594, 630, 630
         lim_pos = 569, 627, 618, 653
