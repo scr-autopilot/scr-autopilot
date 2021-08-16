@@ -93,11 +93,7 @@ if __name__ == '__main__':
     try:
         ahk = AHK()
     except:
-        messagebox.showerror(
-            "Error", 'AutoHotKey was not found on PATH.')
-        ahkask = messagebox.askyesno("Question", "Open a guide on how to install & setup AHK with SCR-Autopilot?")
-        if ahkask == True:
-            webbrowser.open("https://scr-autopilot.mmaty.eu/ahksetup")
+        webbrowser.open("https://scr-autopilot.mmaty.eu/ahksetup")
         exit()
     continue_route = False
 
