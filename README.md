@@ -5,17 +5,6 @@
 All-route autopilot for SCR.
 
 **This project is in BETA version. Please report issues [here](https://github.com/MaTY-MT/scr-autopilot/issues).**
-## Used modules
-
- - numpy
- - pytesseract
- - pydirectinput
- - pillow
- - logging
- - ctypes
- - ahk
- - tkinter
- - opencv-python
 
 ## Installation
 **You must have this confirguration to make autopilot work properly:**
@@ -26,14 +15,6 @@ All-route autopilot for SCR.
  - Roblox set to fullscreen
  - Large GUI in SCR
  - SCR in English
-
 -----
- 1. Download the installer of the [latest release](https://github.com/MaTY-MT/scr-autopilot/releases)
- 2. Launch SCR
- 3. Launch SCR-Autopilot by searching it in Windows, or clicking on the desktop shortcut
- 4. Select if you have HD or FHD resolution (type "hd" without the quotation marks when HD, "fhd" without the quotation marks when FHD)
- 5. Type the top speed of your train in MPH
- 6. Select your train, route and start the game
- 7. Hit the red autopilot button
- 8. Click anywhere in Roblox
+ How to install SCR-Autopilot: [https://youtu.be/cBkVa0THCYg](https://youtu.be/cBkVa0THCYg)
 
