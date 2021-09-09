@@ -16,5 +16,5 @@ All-route autopilot for SCR.
  - Large GUI in SCR
  - SCR in English
 -----
- How to install SCR-Autopilot: [https://youtu.be/cBkVa0THCYg](https://youtu.be/cBkVa0THCYg)
+ How to install SCR-Autopilot: [SETUP.md](https://github.com/scr-autopilot/scr-autopilot/blob/main/SETUP.md)
 
