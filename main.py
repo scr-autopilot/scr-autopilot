@@ -137,6 +137,7 @@ if __name__ == '__main__':
         doors_pos = 870, 822, 871, 823
         loading_pos = 781, 823, 782, 824
         continue_pos = 1032, 460, 1033, 461
+        undershoot_pos = 709, 906, 710, 907
     elif resolution == "hd":
         messagebox.showerror(
             "Error", 'HD resolution is not supported in this version of SCR-Autopilot. Please install v0.3.1-beta to use the HD resolution.')
@@ -195,6 +196,8 @@ if __name__ == '__main__':
     time.sleep(1)
     solve = None
     continuing = False
+    ignorelim = False
+    ignoreaws = False
 
     wsask = continue_ask = messagebox.askyesno(
         "Question", "Would you like to start a webserver so you can remotely control the autopilot?")
@@ -222,6 +225,9 @@ if __name__ == '__main__':
     def task():
         global solve
         global continuing
+        global ignorelim
+        global ignoreaws
+        print("ignorelim", ignorelim)
         if continue_route == True:
             im = ImageGrab.grab(bbox=(continue_pos))
             pix = im.load()
@@ -275,7 +281,7 @@ if __name__ == '__main__':
             lim = 0
             lim = [int(s) for s in re.findall(r'\b\d+\b', tesstr)]
             if lim == []:
-                if continuing == False:
+                if continuing == False and ignorelim == False:
                     messagebox.showerror("Error", "I can't read the limit")
                     supportask = messagebox.askyesno(
                         "Question", "It looks like you got an error. You can try again, but if this error persists, you can join the support server. Do you want to join the support server on Discord?")
@@ -313,35 +319,36 @@ if __name__ == '__main__':
                 templim = lim[0]
                 lim = lim[0]
                 lim = int(lim)
-                im = ImageGrab.grab(bbox=(red_pos))
-                pix = im.load()
-                # Set the RGBA Value of the image (tuple)
-                red_value = pix[0, 0]
-                im = ImageGrab.grab(bbox=(yellow_pos))
-                pix = im.load()
-                # Set the RGBA Value of the image (tuple)
-                yellow_value = pix[0, 0]
-                im = ImageGrab.grab(bbox=(green_pos))
-                pix = im.load()
-                # Set the RGBA Value of the image (tuple)
-                green_value = pix[0, 0]
-                im = ImageGrab.grab(bbox=(double_yellow_pos))
-                pix = im.load()
-                # Set the RGBA Value of the image (tuple)
-                double_yellow_value = pix[0, 0]
-                if red_value == (255, 0, 0):
-                    print("AWS:", "red")
-                    lim = 0
-                if yellow_value == (255, 190, 0):
-                    print("AWS:", "yellow")
-                    if templim > 45:
-                        lim = 45
-                if double_yellow_value == (255, 190, 0):
-                    print("AWS:", "double_yellow")
-                    if templim > 75:
-                        lim = 75
-                if green_value == (0, 255, 0):
-                    print("AWS:", "green")
+                if ignoreaws == False:
+                    im = ImageGrab.grab(bbox=(red_pos))
+                    pix = im.load()
+                    # Set the RGBA Value of the image (tuple)
+                    red_value = pix[0, 0]
+                    im = ImageGrab.grab(bbox=(yellow_pos))
+                    pix = im.load()
+                    # Set the RGBA Value of the image (tuple)
+                    yellow_value = pix[0, 0]
+                    im = ImageGrab.grab(bbox=(green_pos))
+                    pix = im.load()
+                    # Set the RGBA Value of the image (tuple)
+                    green_value = pix[0, 0]
+                    im = ImageGrab.grab(bbox=(double_yellow_pos))
+                    pix = im.load()
+                    # Set the RGBA Value of the image (tuple)
+                    double_yellow_value = pix[0, 0]
+                    if red_value == (255, 0, 0):
+                        print("AWS:", "red")
+                        lim = 0
+                    if yellow_value == (255, 190, 0):
+                        print("AWS:", "yellow")
+                        if templim > 45:
+                            lim = 45
+                    if double_yellow_value == (255, 190, 0):
+                        print("AWS:", "double_yellow")
+                        if templim > 75:
+                            lim = 75
+                    if green_value == (0, 255, 0):
+                        print("AWS:", "green")
 
                 print("Limit: ", lim)
                 limitThrottle = int((lim / max_speed) * 100)
@@ -359,6 +366,7 @@ if __name__ == '__main__':
                 try:
                     m_distance = distance[0]
                     distance = distance[1]
+                    print(m_distance, distance)
                     if distance == 00 and m_distance == 0 or continuing == True:
                         im = ImageGrab.grab(bbox=(loading_pos))
                         pix = im.load()
@@ -366,12 +374,22 @@ if __name__ == '__main__':
                         im = ImageGrab.grab(bbox=(doors_pos))
                         pix = im.load()
                         doors_value = pix[0, 0]
+                        im = ImageGrab.grab(bbox=(undershoot_pos))
+                        pix = im.load()
+                        undershoot_value = pix[0, 0]
+                        if undershoot_value == (255, 255, 255):
+                            print("UNDERSHOOT")
+                            pydirectinput.keyDown("w")
+                            time.sleep(0.4)
+                            pydirectinput.keyUp("w")
                         if doors_value == (255, 255, 255):
                             print("CLOSING DOORS")
                             pydirectinput.keyDown("t")
                             pydirectinput.keyUp("t")
                             time.sleep(4)
                             continuing = False
+                            ignorelim = False
+                            ignoreaws = False
                         elif loading_value == (255, 255, 255):
                             print("LOADING")
                         else:
@@ -384,6 +402,8 @@ if __name__ == '__main__':
                     elif distance <= 20 and m_distance == 0:
                         if lim >= 45:
                             print("Slowing down to prepare for station arrival.")
+                            ignoreaws = True
+                            ignorelim = True
                             throttle(currentThrottle, int((42 / max_speed) * 100))
                         else:
                             throttle(currentThrottle, limitThrottle)
