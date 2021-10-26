@@ -191,7 +191,7 @@ if __name__ == '__main__':
 
     print_dpi()
 
-    pytesseract.pytesseract.tesseract_cmd = './Tesseract-OCR/tesseract.exe'
+    pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files (x86)/Tesseract-OCR/tesseract.exe'
     time.sleep(1)
     solve = None
     continuing = False
