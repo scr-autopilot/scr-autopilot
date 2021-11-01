@@ -360,7 +360,7 @@ if __name__ == '__main__':
                 cap = cv2.cvtColor(nm.array(cap), cv2.COLOR_RGB2GRAY)
                 tesstr = pytesseract.image_to_string(
                     cap,
-                    config="--psm 7")
+                    config="--psm 6")
                 distance = 0
                 distance = [int(s) for s in re.findall(r'\b\d+\b', tesstr)]
                 try:
