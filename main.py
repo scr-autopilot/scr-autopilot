@@ -138,6 +138,8 @@ if __name__ == '__main__':
         loading_pos = 781, 823, 782, 824
         continue_pos = 1032, 460, 1033, 461
         undershoot_pos = 709, 906, 710, 907
+        awaiting_pos = 862, 823, 863, 824
+        buzzer_pos = 824, 816, 825, 817
     elif resolution == "hd":
         messagebox.showerror(
             "Error", 'HD resolution is not supported in this version of SCR-Autopilot. Please install v0.3.1-beta to use the HD resolution.')
@@ -377,6 +379,13 @@ if __name__ == '__main__':
                         im = ImageGrab.grab(bbox=(undershoot_pos))
                         pix = im.load()
                         undershoot_value = pix[0, 0]
+                        im = ImageGrab.grab(bbox=(awaiting_pos))
+                        pix = im.load()
+                        awaiting_value = pix[0, 0]
+                        im = ImageGrab.grab(bbox=(buzzer_pos))
+                        pix = im.load()
+                        buzzer_value = pix[0, 0]
+                        print(buzzer_value)
                         if undershoot_value == (255, 255, 255):
                             print("UNDERSHOOT")
                             pydirectinput.keyDown("w")
@@ -392,6 +401,12 @@ if __name__ == '__main__':
                             ignoreaws = False
                         elif loading_value == (255, 255, 255):
                             print("LOADING")
+                        elif awaiting_value == (255, 255, 255):
+                            print("WAITING FOR GUARD")
+                        elif buzzer_value == (255, 255, 255):
+                            print("ACTIVATING THE BUZZER")
+                            pydirectinput.keyDown("t")
+                            pydirectinput.keyUp("t")
                         else:
                             print("Autopilot is currently stopping.")
                             pydirectinput.keyDown("s")
