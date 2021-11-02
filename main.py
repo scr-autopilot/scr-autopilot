@@ -93,7 +93,7 @@ if __name__ == '__main__':
     try:
         ahk = AHK()
     except:
-        webbrowser.open("https://scr-autopilot.mmaty.eu/ahksetup")
+        print("AutoHotkey was not found! Please install it in order to continue.")
         exit()
     continue_route = False
 
