@@ -116,8 +116,8 @@ if __name__ == '__main__':
         print("Your version is up-to-date.")
     logging.basicConfig(filename='autopilot.log', filemode='w',
                         level=logging.DEBUG, format="[%(levelname)s] [%(asctime)s] %(message)s")
-
-    warningask = messagebox.askokcancel("Info", "By using this software, you agree that if the software makes a fault, you are always ready to take over. We are not responsible for any penalties given to your account! It is highly recommended to use this software only on VIP servers. This software is not an exploit (confirmed by the SCR staff team) and you can use it freely.")
+    print("\Disclaimer:\nSCR-Autopilot is still in a beta version so it can't handle some situations well.\nWe recommend using SCR-Autopilot on private servers.\nUSE OF THIS SOFTWARE AT YOUR RISK.\nWaiting for the user input in the dialog box.")
+    warningask = messagebox.askokcancel("Disclaimer", "SCR-Autopilot is still in a beta version so it can't handle some situations well.\nWe recommend using SCR-Autopilot on private servers.\n\nUSE OF THIS SOFTWARE AT YOUR RISK.", icon='warning')
     if warningask == False:
         exit()
     display_size = ImageGrab.grab().size
