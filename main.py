@@ -116,7 +116,7 @@ if __name__ == '__main__':
         print("Your version is up-to-date.")
     logging.basicConfig(filename='autopilot.log', filemode='w',
                         level=logging.DEBUG, format="[%(levelname)s] [%(asctime)s] %(message)s")
-    print("\Disclaimer:\nSCR-Autopilot is still in a beta version so it can't handle some situations well.\nWe recommend using SCR-Autopilot on private servers.\nUSE OF THIS SOFTWARE AT YOUR RISK.\nWaiting for the user input in the dialog box.")
+    print("\nDisclaimer:\nSCR-Autopilot is still in a beta version so it can't handle some situations well.\nWe recommend using SCR-Autopilot on private servers.\nUSE OF THIS SOFTWARE AT YOUR RISK.\nWaiting for the user input in the dialog box.")
     warningask = messagebox.askokcancel("Disclaimer", "SCR-Autopilot is still in a beta version so it can't handle some situations well.\nWe recommend using SCR-Autopilot on private servers.\n\nUSE OF THIS SOFTWARE AT YOUR RISK.", icon='warning')
     if warningask == False:
         exit()
