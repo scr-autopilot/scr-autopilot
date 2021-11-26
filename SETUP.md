@@ -30,7 +30,7 @@
 18. Paste this into the command prompt
 
     ```
-    pip3 install opencv_python requests PyDirectInput ahk Flask numpy pytesseract Pillow pywin32
+    py -m pip install opencv_python requests PyDirectInput ahk Flask numpy pytesseract Pillow pywin32
     ```
 
     _The command installs required modules for SCR-Autopilot to work._
