@@ -3,8 +3,10 @@
 [![Releases](https://img.shields.io/github/v/release/scr-autopilot/scr-autopilot)](https://github.com/MaTY-MT/scr-autopilot/releases)
 <br>
 🚄 The only fully automatic autopilot for Stepford County Railway. 
+
 **This project is in BETA version. Please report issues [here](https://github.com/MaTY-MT/scr-autopilot/issues).**
 
 [More information](https://github.com/scr-autopilot/scr-autopilot/wiki)
+
 [Getting started](https://github.com/scr-autopilot/scr-autopilot/wiki/Getting-started)
 
