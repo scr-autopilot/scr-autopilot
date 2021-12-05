@@ -97,14 +97,14 @@ if __name__ == '__main__':
         exit()
     continue_route = False
 
-    print("SCR-Autopilot v0.4-beta by MaTY (matyroblox01)")
+    print("SCR-Autopilot v0.4.1-beta by MaTY (matyroblox01)")
     
     print("Checking for updates...")
     URL = "https://matyapi.matymt.repl.co/scr-autopilot/newest-version"
     r = requests.get(url=URL)
     data = r.json()
     version = data['version']
-    if not version == "0.4":
+    if not version == "0.4.1":
         print("Your version is outdated! Please install the latest release on https://github.com/scr-autopilot/scr-autopilot/releases")
         outdatedask = messagebox.askyesno(
             "SCR-Autopilot", "Your version of SCR-Autopilot is outdated. Do you want to go to the releases page to download a new version?")
