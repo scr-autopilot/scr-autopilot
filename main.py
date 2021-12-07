@@ -142,7 +142,7 @@ if __name__ == '__main__':
         buzzer_pos = 824, 816, 825, 817
     elif resolution == "hd":
         messagebox.showerror(
-            "Error", 'HD resolution is not supported in this version of SCR-Autopilot. Please install v0.3.1-beta to use the HD resolution.')
+            "Error", 'HD resolution is discontinued in the current version.')
         sys.exit()
         time.sleep(1)
         spd_pos = 573, 594, 630, 630
