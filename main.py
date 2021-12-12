@@ -97,7 +97,7 @@ if __name__ == '__main__':
         exit()
     continue_route = False
 
-    print("SCR-Autopilot v0.4.1-beta by MaTY (matyroblox01)")
+    print("SCR-Autopilot v0.4.1-beta by MaTY")
     
     print("Checking for updates...")
     URL = "https://matyapi.matymt.repl.co/scr-autopilot/newest-version"
