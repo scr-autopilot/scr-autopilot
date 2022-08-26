@@ -1,13 +1,9 @@
 # SCR-Autopilot
-[![Discord](https://img.shields.io/discord/806191973362040893.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC1)](https://discord.gg/jtQ2R8cxWq)
-[![Releases](https://img.shields.io/github/v/release/scr-autopilot/scr-autopilot)](https://github.com/MaTY-MT/scr-autopilot/releases)
-<br>
-🚄 The only fully automatic autopilot for Stepford County Railway. 
-This is a 3rd-party software that is not associated with Stepford County Railway.
+Hello,
+MaTY-MT/SCR-Autopilot is archived, and I have a couple reasons why:
+- I haven't been enjoying the development, the last commit was like last year
+- The development of this has been pretty difficult and tedious
+- I don't really enjoy playing SCR anymore
 
-**This project is in BETA version. Please report issues [here](https://github.com/MaTY-MT/scr-autopilot/issues).**
-
-[More information](https://github.com/scr-autopilot/scr-autopilot/wiki)
-
-[Getting started](https://github.com/scr-autopilot/scr-autopilot/wiki/Getting-started)
-
+This is sadly bad news for some people, but also good news for some.
+If you really want to still have the autopilot functionality in SCR, different projects have now appeared, so maybe give them a try! :) 
